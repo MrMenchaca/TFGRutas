@@ -2,7 +2,7 @@
   "name": "tfg-rutas",
   "productName": "tfg-rutas",
   "version": "1.0.0",
-  "description": "My Electron application description",
+  "description": "TFGRutas",
   "main": ".webpack/main",
   "scripts": {
     "start": "electron-forge start",
