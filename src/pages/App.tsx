@@ -4,9 +4,9 @@ import { BrowserRouter, Router, Route ,Link, Routes, HashRouter} from "react-rou
 import Navbar from 'react-bootstrap/Navbar';
 import { Container, Nav } from "react-bootstrap";
 import { Index } from "./Index";
-import { Navigation } from "./Navigation";
-import { Map } from "./Map";
-
+import { Navigation } from "../components/Navigation";
+import { GoogleMaps } from "./GoogleMaps";
+import { Leaflet } from "./Leaflet";
 
 type AppProps = {};
 
@@ -14,6 +14,7 @@ type AppState = {};
 
 export class App extends React.Component<AppProps, AppState> {
   
+
   render() {
     return (
       <React.Fragment>
@@ -22,7 +23,8 @@ export class App extends React.Component<AppProps, AppState> {
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="index" element={<Index />} />
-            <Route path="googleMaps" element={<Map />} />
+            <Route path="googleMaps" element={<GoogleMaps />} />
+            <Route path="leaflet" element={<Leaflet />} />
           </Routes>
         </HashRouter>
       </React.Fragment>
@@ -44,4 +46,4 @@ export class App extends React.Component<AppProps, AppState> {
 }
 
 //Link the main component (App) with the html (index.html)
-ReactDOM.render(<React.StrictMode><App/></React.StrictMode>, document.getElementById("root"));
+ReactDOM.render(<div><App/></div>, document.getElementById("root"));

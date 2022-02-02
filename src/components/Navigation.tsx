@@ -14,11 +14,12 @@ export class Navigation extends React.Component{
                             <Nav.Link as={Link} to="/" >Inicio</Nav.Link>
                             <Nav.Link as={Link} to="googleMaps" >Google maps</Nav.Link>
                             <Nav.Link as={Link} to="googleMaps" >IGN</Nav.Link>
+                            <Nav.Link as={Link} to="leaflet" >Leaflet</Nav.Link>
                         </Nav>
                     </Container>
                 </Navbar>
             </React.Fragment>
             
-        )
+        );
     }
 }

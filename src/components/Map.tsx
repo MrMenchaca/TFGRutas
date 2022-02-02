@@ -1,26 +1,64 @@
-import * as React from "react";
-import 'bootstrap/dist/css/bootstrap'
-import Container from 'react-bootstrap/Container';
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+import React, { useEffect, useRef, useState } from "react";
 
-type MapProps = {};
+interface MapProps {
+    center: google.maps.LatLngLiteral;
+    zoom: number;
+}
 
-type MapState = {
-};
+interface MapState {
+    map: google.maps.Map;
+    style: google.maps.StyledMapType;
+}
 
-export class Map extends React.Component<MapProps, MapState> {
-  state: MapState = {};
+
+export class Map extends React.Component<MapProps, MapState>{    
+  constructor(props: MapProps){
+    super(props);
+    this.state = {
+      map: null,
+      style: new google.maps.StyledMapType([
+        {
+          "featureType": "all",
+          "stylers": [
+            { "color": "#C0C0C0" }
+          ]
+        },{
+          "featureType": "road.arterial",
+          "elementType": "geometry",
+          "stylers": [
+            { "color": "#CCFFFF" }
+          ]
+        },{
+          "featureType": "landscape",
+          "elementType": "labels",
+          "stylers": [
+            { "visibility": "off" }
+          ]
+        }
+      ],
+      { name: "Styled Map" }),
+    }
+  }
+
+  componentDidMount(): void {
+    this.setState({ map: new window.google.maps.Map(document.getElementById("map") as HTMLElement, {
+      center: this.props.center,
+      zoom: this.props.zoom,
+      mapTypeControlOptions: {
+        mapTypeIds: ["roadmap", "satellite", "hybrid", "terrain"],
+      },
+    })});
+  }
 
   render() {
+    const divStyle={
+      height:'800px', 
+      width: '1000px'
+    }
+
     return (
-      <Container>
-        <Row className="justify-content-md-center">
-          <Col md="auto">
-            <h1>MAPA</h1>
-          </Col>
-        </Row> 
-      </Container>
+      <div id="map" style={divStyle}></div>
     );
   }
 }
+
