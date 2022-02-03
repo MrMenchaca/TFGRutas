@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { Component, Fragment } from 'react';
 
 interface MapProps {
     center: google.maps.LatLngLiteral;
@@ -11,7 +11,7 @@ interface MapState {
 }
 
 
-export class Map extends React.Component<MapProps, MapState>{    
+export class Map extends Component<MapProps, MapState>{    
   constructor(props: MapProps){
     super(props);
     this.state = {

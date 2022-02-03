@@ -1,13 +1,12 @@
-import * as React from "react";
+import { Component, Fragment } from 'react';
 import 'bootstrap/dist/css/bootstrap'
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { Status, Wrapper } from "@googlemaps/react-wrapper";
-import { Map } from "../components/Map";
+import { Map } from "./Map";
 import { Spinner } from "react-bootstrap";
-//import {GoogleMap, Marker, InfowWindow, useJsApiLoader} from "@react-google-maps/api"
 
-export class GoogleMaps extends React.Component {
+export class GoogleMaps extends Component {
 
   render() {
     const render = (status: Status): React.ReactElement => {
@@ -19,17 +18,19 @@ export class GoogleMaps extends React.Component {
     const center = { lat: -34.397, lng: 150.644 };
     const zoom = 4;
 
+    console.log(process.env.GOOGLE_MAPS_API_KEY);
+
     return (
-      <React.Fragment>
+      <Fragment>
         <Row className="justify-content-md-center">
           <Col md="auto">
             <h1>Google Maps</h1>
-            <Wrapper apiKey={"AIzaSyDBsrGdH36Y11o4Vx55Ew-0lN_LmL-5G6s"} render={render}>
+            <Wrapper apiKey={process.env.GOOGLE_MAPS_API_KEY} render={render}>
               <Map center={center} zoom={zoom}/>
             </Wrapper>
           </Col>
         </Row> 
-      </React.Fragment>
+      </Fragment>
     );
   }
 }
