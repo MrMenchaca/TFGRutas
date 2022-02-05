@@ -24,7 +24,7 @@ export class Index extends Component {
               <Link className="btn btn-outline-primary" to="googleMaps">Google maps</Link>
             </Col>
             <Col md="auto">
-              <Link className="btn btn-outline-primary" to="googleMaps">IGN</Link>
+              <Link className="btn btn-outline-primary" to="ign">IGN</Link>
             </Col>
           </Row> 
         </Container>
