@@ -1,9 +1,9 @@
 import { Component, Fragment } from 'react';
 import * as ReactDOM from "react-dom";
 import { Route, Routes, HashRouter} from "react-router-dom";
-import { Index } from "./pages/Index/Index";
+import { Index } from "./Index/Index";
 import { Navigation } from "./Navigation";
-import { GoogleMaps } from "./pages/GoogleMaps/GoogleMaps";
+import { GoogleMaps } from "./GoogleMaps/GoogleMaps";
 
 /**
  * Main component and router to access all pages in the app

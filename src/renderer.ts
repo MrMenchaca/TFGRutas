@@ -26,5 +26,5 @@
  * ```
  */
 
-import './index.css';
-import './front/App';
+import './front/app_style.css';
+import './front/pages/App';

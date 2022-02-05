@@ -52,7 +52,7 @@
               "config": "./webpack.renderer.config.js",
               "entryPoints": [
                 {
-                  "html": "./src/index.html",
+                  "html": "./src/front/index.html",
                   "js": "./src/renderer.ts",
                   "name": "main_window"
                 }
@@ -88,7 +88,7 @@
     "node-loader": "^2.0.0",
     "style-loader": "^3.0.0",
     "ts-loader": "^9.2.2",
-    "typescript": "^4.0.2"
+    "typescript": "^4.1.2"
   },
   "dependencies": {
     "@googlemaps/react-wrapper": "^1.1.18",

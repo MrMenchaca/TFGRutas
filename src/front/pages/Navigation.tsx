@@ -2,7 +2,9 @@ import { Component, Fragment } from 'react';
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-
+/**
+ * Navbar to use in all application
+ */
 export class Navigation extends Component{
     render() {
         return (
