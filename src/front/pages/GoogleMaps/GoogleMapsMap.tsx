@@ -26,18 +26,20 @@ export class GoogleMapsMap extends Component<MapProps, MapState>{
   }
 
   componentDidMount(): void {
-    this.setState({ map: new window.google.maps.Map(document.getElementById("map") as HTMLElement, {
-      center: this.props.center,
-      zoom: this.props.zoom,
-      mapTypeControlOptions: {
-        mapTypeIds: ["roadmap", "satellite", "hybrid", "terrain"],
-      },
-    })});
+    this.setState({ 
+      map: new window.google.maps.Map(document.getElementById("map") as HTMLElement, {
+        center: this.props.center,
+        zoom: this.props.zoom,
+        mapTypeControlOptions: {
+          mapTypeIds: ["roadmap", "satellite", "hybrid", "terrain"],
+        },
+      })
+    });
   }
 
   render() {
     const divStyle={
-      height:'800px', 
+      height: '800px', 
       width: '1000px'
     }
 
