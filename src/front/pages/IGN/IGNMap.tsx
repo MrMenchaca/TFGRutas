@@ -3,7 +3,7 @@ import Map from "ol/Map";
 import View from "ol/View";
 import TileLayer from "ol/layer/Tile";
 import TileWMS from "ol/source/TileWMS";
-
+import './../../AppStyle.css';
 import "ol/ol.css";
 
 interface MapProps {}
@@ -67,14 +67,9 @@ export class IGNMap extends Component<MapProps, MapState> {
   }
 
   render() {
-    const divStyle={
-        height: '800px', 
-        width: '1000px'
-      }
-
     return (
       <Fragment>
-        <div id="ignMap" style={divStyle}></div>
+        <div id="ignMap" className="map-size"></div>
       </Fragment>
     );
   }

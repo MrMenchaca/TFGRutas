@@ -1,4 +1,5 @@
 import { Component, Fragment } from 'react';
+import './../../AppStyle.css';
 
 interface MapProps {
   center: google.maps.LatLngLiteral;
@@ -38,14 +39,9 @@ export class GoogleMapsMap extends Component<MapProps, MapState>{
   }
 
   render() {
-    const divStyle={
-      height: '800px', 
-      width: '1000px'
-    }
-
     return (
       <Fragment>
-        <div id="map" style={divStyle}></div>
+        <div id="map" className="map-size"></div>
       </Fragment>
     );
   }
