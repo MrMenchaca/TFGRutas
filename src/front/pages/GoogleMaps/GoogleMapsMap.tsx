@@ -27,6 +27,10 @@ export class GoogleMapsMap extends Component<MapProps, MapState>{
   }
 
   componentDidMount(): void {
+    /**
+     * setState is async, so in the second param, we place the funcionality that needs the state
+     * updated to work. In this case we need the map to be loaded for the kml to be displayed
+     */
     this.setState({ 
       map: new window.google.maps.Map(document.getElementById("map") as HTMLElement, {
         center: this.props.center,
@@ -34,6 +38,11 @@ export class GoogleMapsMap extends Component<MapProps, MapState>{
         mapTypeControlOptions: {
           mapTypeIds: ["roadmap", "satellite", "hybrid", "terrain"],
         },
+      })
+    }, () => {
+      const kml = new google.maps.KmlLayer({
+        url: "https://googlearchive.github.io/js-v2-samples/ggeoxml/cta.kml",
+        map: this.state.map
       })
     });
   }
