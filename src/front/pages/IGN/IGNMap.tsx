@@ -1,8 +1,11 @@
 import React, { Component, Fragment } from "react";
 import Map from "ol/Map";
 import View from "ol/View";
+import KML from 'ol/format/KML';
 import TileLayer from "ol/layer/Tile";
 import TileWMS from "ol/source/TileWMS";
+import VectorLayer from 'ol/layer/Vector';
+import VectorSource from 'ol/source/Vector';
 import './../../AppStyle.css';
 import "ol/ol.css";
 
@@ -42,6 +45,20 @@ export class IGNMap extends Component<MapProps, MapState> {
           params: { "LAYERS": "mtn_rasterizado" }
         })
       }),
+
+      new VectorLayer({
+        source: new VectorSource({
+          url: 'https://openlayers.org/en/latest/examples/data/kml/2012-02-10.kml',
+          format: new KML(),
+        }),
+      }),
+
+      new VectorLayer({
+        source: new VectorSource({
+          url: 'https://googlearchive.github.io/js-v2-samples/ggeoxml/cta.kml',
+          format: new KML(),
+        }),
+      })
 
       /*
       // Seismic data
