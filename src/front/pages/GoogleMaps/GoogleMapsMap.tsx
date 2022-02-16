@@ -44,6 +44,11 @@ export class GoogleMapsMap extends Component<MapProps, MapState>{
         url: "https://googlearchive.github.io/js-v2-samples/ggeoxml/cta.kml",
         map: this.state.map
       })
+
+      const kml2 = new google.maps.KmlLayer({
+        url: "https://openlayers.org/en/latest/examples/data/kml/2012-02-10.kml",
+        map: this.state.map
+      })
     });
   }
 
