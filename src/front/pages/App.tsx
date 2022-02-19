@@ -1,4 +1,4 @@
-import { Component, Fragment } from 'react';
+import { Component, Fragment, ReactElement } from 'react';
 import * as ReactDOM from "react-dom";
 import { Route, Routes, HashRouter} from "react-router-dom";
 import { Index } from "./Index/Index";
@@ -11,7 +11,7 @@ import { IGN } from "./IGN/IGN";
  * We should declare Navbar and Footer here
  */
 export class App extends Component {
-  render() {
+  public render(): ReactElement {
     return (
       <Fragment>
         <HashRouter>   

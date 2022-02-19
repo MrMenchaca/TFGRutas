@@ -1,4 +1,4 @@
-import { Component, Fragment } from 'react';
+import { Component, Fragment, ReactElement } from 'react';
 import './../../AppStyle.css';
 
 interface MapProps {
@@ -70,7 +70,7 @@ export class GoogleMapsMap extends Component<MapProps, MapState>{
     });
   }
 
-  public render() {
+  public render(): ReactElement {
     return (
       <Fragment>
         <div id="map" className="map-size"></div>

@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component, Fragment, ReactElement } from "react";
 import Map from "ol/Map";
 import View from "ol/View";
 import KML from 'ol/format/KML';
@@ -28,7 +28,7 @@ interface MapState {
  * Component to display IGN Map
  */
 export class IGNMap extends Component<MapProps, MapState> {
-  constructor(props: MapProps) {
+  public constructor(props: MapProps) {
     super(props);
     this.state = {
       map: null,
@@ -83,11 +83,20 @@ export class IGNMap extends Component<MapProps, MapState> {
         })
       }),
 
-      this.getRoute()
+      this.getRoute(),
+
+      /*
+      new VectorLayer({
+        source: new VectorSource({
+          url: 'https://openlayers.org/en/latest/examples/data/kml/2012-02-10.kml',
+          format: new KML(),
+        }),
+      }),
+      */
     ];
   }
 
-  public componentDidMount() {  
+  public componentDidMount(): void {  
     this.setState({
       map: new Map({
         target: 'ignMap',
@@ -101,7 +110,7 @@ export class IGNMap extends Component<MapProps, MapState> {
     });
   }
 
-  public render() {
+  public render(): ReactElement {
     return (
       <Fragment>
         <div id="ignMap" className="map-size"></div>
