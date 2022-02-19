@@ -1,4 +1,4 @@
-import { Component, Fragment } from 'react';
+import { Component, Fragment, ReactElement } from 'react';
 import 'bootstrap/dist/css/bootstrap'
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -10,7 +10,7 @@ import { Spinner } from "react-bootstrap";
  * GoogleMaps page
  */
 export class GoogleMaps extends Component{  
-  render() {
+  public render(): ReactElement {
 
     //Arrow function to return result of calling GoogleMapsApi
     const render = (status: Status): React.ReactElement => {
