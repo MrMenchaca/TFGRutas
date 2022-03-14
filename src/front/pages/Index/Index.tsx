@@ -1,16 +1,15 @@
-import { Component, Fragment } from 'react';
+import { Component, Fragment, ReactElement } from 'react';
 import 'bootstrap/dist/css/bootstrap'
 import Container from 'react-bootstrap/Container';
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { Link } from "react-router-dom";
 
-
 /**
  * Main page
  */
 export class Index extends Component {
-  render() {
+  public render(): ReactElement {
     return (
       <Fragment>
         <Container>
