@@ -5,6 +5,7 @@ import { Index } from "./Index/Index";
 import { Navigation } from "./Navigation";
 import { GoogleMaps } from "./GoogleMaps/GoogleMaps";
 import { IGN } from "./IGN/IGN";
+import { Importer } from './Importer/Importer';
 
 /**
  * Main component and router to access all pages in the app
@@ -21,6 +22,7 @@ export class App extends Component {
             <Route path="index" element={<Index/>}/>
             <Route path="googleMaps" element={<GoogleMaps/>}/>
             <Route path="ign" element={<IGN/>}/>
+            <Route path="importer" element={<Importer/>}/>
           </Routes>
         </HashRouter>
       </Fragment>
