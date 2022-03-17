@@ -16,6 +16,7 @@ export class Navigation extends Component {
               <Nav.Link as={Link} to="/">Inicio</Nav.Link>
               <Nav.Link as={Link} to="googleMaps">Google maps</Nav.Link>
               <Nav.Link as={Link} to="ign">IGN</Nav.Link>
+              <Nav.Link as={Link} to="importer">Importador</Nav.Link>
             </Nav>
           </Container>
         </Navbar>
