@@ -10,30 +10,30 @@ import { Spinner } from "react-bootstrap";
  * GoogleMaps page
  */
 export class GoogleMaps extends Component{  
-  public render(): ReactElement {
+    public render(): ReactElement {
 
-    //Arrow function to return result of calling GoogleMapsApi
-    const render = (status: Status): React.ReactElement => {
-      if (status === Status.FAILURE) 
-        return <h1>{status}</h1>;
-      return <Spinner animation="border"/>;
-    };
+        //Arrow function to return result of calling GoogleMapsApi
+        const render = (status: Status): React.ReactElement => {
+        if (status === Status.FAILURE) 
+            return <h1>{status}</h1>;
+        return <Spinner animation="border"/>;
+        };
 
-    //Pass center and zoom to map component
-    const center = { lat: 43.363129, lng: -5.951843 };
-    const zoom = 8;
+        //Pass center and zoom to map component
+        const center = { lat: 43.363129, lng: -5.951843 };
+        const zoom = 8;
 
-    return (
-      <Fragment>
-        <Row className="justify-content-md-center">
-          <Col md="auto">
-            <h1>Google Maps</h1>
-            <Wrapper apiKey={"AIzaSyDBsrGdH36Y11o4Vx55Ew-0lN_LmL-5G6s"} render={render}>
-              <GoogleMapsMap center={center} zoom={zoom}/>
-            </Wrapper>
-          </Col>
-        </Row> 
-      </Fragment>
-    );
-  }
+        return (
+            <Fragment>
+                <Row className="justify-content-md-center">
+                    <Col md="auto">
+                        <h1>Google Maps</h1>
+                        <Wrapper apiKey={"AIzaSyDBsrGdH36Y11o4Vx55Ew-0lN_LmL-5G6s"} render={render}>
+                            <GoogleMapsMap center={center} zoom={zoom}/>
+                        </Wrapper>
+                    </Col>
+                </Row> 
+            </Fragment>
+        );
+    }
 }
