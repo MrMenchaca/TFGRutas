@@ -12,22 +12,22 @@ import { Importer } from './Importer/Importer';
  * We should declare Navbar and Footer here
  */
 export class App extends Component {
-  public render(): ReactElement {
-    return (
-      <Fragment>
-        <HashRouter>   
-          <Navigation/>     
-          <Routes>
-            <Route path="/" element={<Index/>}/>
-            <Route path="index" element={<Index/>}/>
-            <Route path="googleMaps" element={<GoogleMaps/>}/>
-            <Route path="ign" element={<IGN/>}/>
-            <Route path="importer" element={<Importer/>}/>
-          </Routes>
-        </HashRouter>
-      </Fragment>
-    );
-  }
+    public render(): ReactElement {
+        return (
+            <Fragment>
+                <HashRouter>   
+                    <Navigation/>     
+                    <Routes>
+                        <Route path="/" element={<Index/>}/>
+                        <Route path="index" element={<Index/>}/>
+                        <Route path="googleMaps" element={<GoogleMaps/>}/>
+                        <Route path="ign" element={<IGN/>}/>
+                        <Route path="importer" element={<Importer/>}/>
+                    </Routes>
+                </HashRouter>
+            </Fragment>
+        );
+    }
 }
 
 //Link the main component (App) with the html (index.html)
