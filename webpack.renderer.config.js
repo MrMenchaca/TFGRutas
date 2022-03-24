@@ -12,9 +12,9 @@ module.exports = {
   module: {
     rules,
   },
+  target: 'electron-renderer',
   plugins: plugins,
   resolve: {
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.css']
   },
-  target: 'electron-renderer'
 };
