@@ -16,6 +16,8 @@ import Stroke from "ol/style/Stroke";
 import LineString from "ol/geom/LineString";
 import './../../AppStyle.css';
 import "ol/ol.css";
+import { ParserManager } from '../../../back/parsers/ParserManager';
+
 
 interface MapProps {}
 
@@ -36,33 +38,35 @@ export class IGNMap extends Component<MapProps, MapState> {
     }
 
     private getRoute(): VectorLayer<any>{
-        //Se puede pasar un tercer parámetro para la altitud
-        const coords: number[][] = [
-            [-5.923093, 43.524401],
-            [-5.923914, 43.522903],
-            [-5.923978, 43.522164],
-            [-5.924901, 43.521989],
-            [-5.925690, 43.521087],
-        ];
-        const lineString = new LineString(coords);
-        lineString.transform('EPSG:4326', 'EPSG:3857');
-        const feature = new Feature({
-            geometry: lineString
-        });
+        const parserManager = new ParserManager();
+        const parser = parserManager.getParser("D:/Downloads/ruta-del-cares-poncebos-cain-poncebos-asturias-leon-650-m-d.gpx");
+        if (parser != null){
+            const route = parser.fromFileToDomain("D:/Downloads/ruta-del-cares-poncebos-cain-poncebos-asturias-leon-650-m-d.gpx");
+            const coords = route.getIGNCoordinates();
 
-        return new VectorLayer({
-            source: new VectorSource({
-                features: [
-                    feature
-                ]
-            }),
-            style: new Style({
-                stroke: new Stroke({
-                    color: 'red',
-                    width: 5
+            //Se puede pasar un tercer parámetro para la altitud
+            const lineString = new LineString(coords);
+            lineString.transform('EPSG:4326', 'EPSG:3857');
+            const feature = new Feature({
+                geometry: lineString
+            });
+
+            return new VectorLayer({
+                source: new VectorSource({
+                    features: [
+                        feature
+                    ]
+                }),
+                style: new Style({
+                    stroke: new Stroke({
+                        color: 'red',
+                        width: 5
+                    })
                 })
-            })
-        });
+            });
+        }
+        
+        return null;
     }
 
     private getLayers(): Layer<any, any>[]{

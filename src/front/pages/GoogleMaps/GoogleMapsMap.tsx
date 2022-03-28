@@ -1,4 +1,6 @@
 import { Component, Fragment, ReactElement } from 'react';
+import { ParserManager } from '../../../back/parsers/ParserManager';
+import { Coordinate } from '../../../back/domain/Coordinate';
 import './../../AppStyle.css';
 
 interface MapProps {
@@ -23,15 +25,16 @@ export class GoogleMapsMap extends Component<MapProps, MapState>{
     }
 
     private getRoute(): google.maps.Data.LineString {
-        const coords: {lat: number, lng: number}[] = [
-            { lat: 43.524401, lng: -5.923093 }, 
-            { lat: 43.522903, lng: -5.923914 }, 
-            { lat: 43.522164, lng: -5.923978 }, 
-            { lat: 43.521989, lng: -5.924901 }, 
-            { lat: 43.521087, lng: -5.925690 }, 
-        ];
-
-        return new google.maps.Data.LineString(coords);
+        const parserManager = new ParserManager();
+        const parser = parserManager.getParser("D:/Downloads/hormiguita-circular-ria-de-aviles-sendas-del-rio-arlos-verde.tcx");
+        if (parser != null){
+            const route = parser.fromFileToDomain("D:/Downloads/hormiguita-circular-ria-de-aviles-sendas-del-rio-arlos-verde.tcx");
+            const coords = route.getGoogleMapsCoordinates();
+            return new google.maps.Data.LineString(coords);
+        }
+        else {
+            return null;
+        }
     }
 
     public componentDidMount(): void {
