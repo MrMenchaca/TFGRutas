@@ -34,5 +34,5 @@ export class Route {
 
     //Getters
     public getName(): string { return this.name; }
-    public getCoordinates(): Coordinate[]{ return this.coordinates; }
+    public getCoordinates(): Coordinate[] { return this.coordinates; }
 }

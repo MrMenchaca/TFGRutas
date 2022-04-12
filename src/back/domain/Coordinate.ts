@@ -10,11 +10,9 @@ export class Coordinate {
     }
 
     //Functions
-    public getLat(): number{
-        return this.lat;       
-    }
 
-    public getLng(): number{
-        return this.lng;       
-    }
+    
+    //Getters
+    public getLat(): number { return this.lat; }
+    public getLng(): number { return this.lng; }
 }
