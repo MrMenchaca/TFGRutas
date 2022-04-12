@@ -16,6 +16,10 @@ import Stroke from "ol/style/Stroke";
 import LineString from "ol/geom/LineString";
 import './../../AppStyle.css';
 import "ol/ol.css";
+import { ParserManager } from '../../../back/parsers/ParserManager';
+import { Database } from "../../../back/database/Database";
+import { Route } from "../../../back/domain/Route";
+
 
 interface MapProps {}
 
@@ -31,42 +35,40 @@ export class IGNMap extends Component<MapProps, MapState> {
     public constructor(props: MapProps) {
         super(props);
         this.state = {
-        map: null,
+            map: null,
         };
     }
 
-    private getRoute(): VectorLayer<any>{
-        //Se puede pasar un tercer parámetro para la altitud
-        const coords: number[][] = [
-            [-5.923093, 43.524401],
-            [-5.923914, 43.522903],
-            [-5.923978, 43.522164],
-            [-5.924901, 43.521989],
-            [-5.925690, 43.521087],
-        ];
-        const lineString = new LineString(coords);
-        lineString.transform('EPSG:4326', 'EPSG:3857');
-        const feature = new Feature({
-            geometry: lineString
-        });
+    private async getRoutes(): Promise<VectorLayer<any>[]> {
+        const routes = await Database.getAllRoutes();    
+        const coords: VectorLayer<any>[] = [];
+        routes.forEach(function (route: Route){
+            //Se puede pasar un tercer parámetro para la altitud
+            const lineString = new LineString(route.getIGNCoordinates());
+            lineString.transform('EPSG:4326', 'EPSG:3857');
+            const feature = new Feature({
+                geometry: lineString
+            });
 
-        return new VectorLayer({
-            source: new VectorSource({
-                features: [
-                    feature
-                ]
-            }),
-            style: new Style({
-                stroke: new Stroke({
-                    color: 'red',
-                    width: 5
+            coords.push(new VectorLayer({
+                source: new VectorSource({
+                    features: [
+                        feature
+                    ]
+                }),
+                style: new Style({
+                    stroke: new Stroke({
+                        color: 'red',
+                        width: 5
+                    })
                 })
-            })
-        });
+            }));
+        });  
+        return coords; 
     }
 
-    private getLayers(): Layer<any, any>[]{
-        return [ 
+    private getBasicLayers(): Layer<any, any>[]{
+        const layers: Layer<any, any>[] = [ 
         //Grey background    
         new TileLayer({
             source: new TileWMS({  
@@ -83,8 +85,6 @@ export class IGNMap extends Component<MapProps, MapState> {
             })
         }),
 
-        this.getRoute(),
-
         /*
         new VectorLayer({
             source: new VectorSource({
@@ -94,19 +94,26 @@ export class IGNMap extends Component<MapProps, MapState> {
         }),
         */
         ];
+        return layers;
     }
 
     public componentDidMount(): void {  
         this.setState({
             map: new Map({
                 target: 'ignMap',
-                layers: this.getLayers(),
+                layers: this.getBasicLayers(),
                 view: new View({
                     //ol.proj.fromLonLat([54.081, 32.908])
                     center: [0, 0],
                     zoom: 4
                 })
             })
+        }, () => {
+            this.getRoutes().then(results => {
+                results.forEach(function(route){
+                    this.state.map.addLayer(route);
+                }, this);
+            });
         });
     }
 
