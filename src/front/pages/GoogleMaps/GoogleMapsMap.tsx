@@ -2,6 +2,8 @@ import { Component, Fragment, ReactElement } from 'react';
 import { ParserManager } from '../../../back/parsers/ParserManager';
 import { Coordinate } from '../../../back/domain/Coordinate';
 import './../../AppStyle.css';
+import { Database } from '../../../back/database/Database';
+import { Route } from '../../../back/domain/Route';
 
 interface MapProps {
     center: google.maps.LatLngLiteral;
@@ -24,17 +26,13 @@ export class GoogleMapsMap extends Component<MapProps, MapState>{
         }
     }
 
-    private getRoute(): google.maps.Data.LineString {
-        const parserManager = new ParserManager();
-        const parser = parserManager.getParser("D:/Downloads/hormiguita-circular-ria-de-aviles-sendas-del-rio-arlos-verde.tcx");
-        if (parser != null){
-            const route = parser.fromFileToDomain("D:/Downloads/hormiguita-circular-ria-de-aviles-sendas-del-rio-arlos-verde.tcx");
-            const coords = route.getGoogleMapsCoordinates();
-            return new google.maps.Data.LineString(coords);
-        }
-        else {
-            return null;
-        }
+    private async getRoutes(): Promise<google.maps.Data.LineString[]> {
+        const routes = await Database.getAllRoutes();    
+        const coords: google.maps.Data.LineString[] = [];
+        routes.forEach(function (route: Route){
+            coords.push(new google.maps.Data.LineString(route.getGoogleMapsCoordinates()));
+        });  
+        return coords; 
     }
 
     public componentDidMount(): void {
@@ -47,9 +45,14 @@ export class GoogleMapsMap extends Component<MapProps, MapState>{
             },
         });
         
-        map.data.add({
-            geometry: this.getRoute(),
+        this.getRoutes().then(results => {
+            results.forEach(function(route){
+                map.data.add({
+                    geometry: route,
+                });
+            });
         });
+       
 
         /**
          * setState is async, so in the second param, we place the funcionality that needs the state

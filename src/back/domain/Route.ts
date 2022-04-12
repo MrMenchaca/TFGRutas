@@ -2,6 +2,7 @@ import { Coordinate } from "./Coordinate";
 
 export class Route {
     //Attributes
+    private _id: string;
     private name: string;
     private coordinates: Coordinate[];
 
