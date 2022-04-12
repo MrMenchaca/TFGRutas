@@ -15,7 +15,7 @@ const createWindow = (): void => {
         title: "TFGRutas",
         webPreferences: {
         nodeIntegration: true,
-        contextIsolation: false
+        contextIsolation: false,
         }
     });
     
@@ -27,6 +27,8 @@ const createWindow = (): void => {
 
     // Open the DevTools.
     mainWindow.webContents.openDevTools();
+
+    process.noAsar = true;
 };
 
 // This method will be called when Electron has finished
