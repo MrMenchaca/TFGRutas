@@ -22,9 +22,9 @@ export class ListRoutes extends Component<ListRoutesProps, ListRoutesState>{
         const routes: Route[] = await Database.getAllRoutes();
         routes.forEach(function(route: Route){
             elements.push(
-            <Fragment>
-                <li>{route.getName()} <Button variant="primary">Ver</Button></li>
-            </Fragment>
+                <Fragment>
+                    <li>{route.getName()} <Button variant="primary">Ver</Button></li>
+                </Fragment>
             )
         });
         return elements;
