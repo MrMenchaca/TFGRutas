@@ -28,6 +28,9 @@ export class Index extends Component {
                         <Col md="auto">
                             <Link className="btn btn-outline-primary" to="importer">Importer</Link>
                         </Col>
+                        <Col md="auto">
+                            <Link className="btn btn-outline-primary" to="listRoutes">Rutas</Link>
+                        </Col>
                     </Row> 
                 </Container>
             </Fragment>
