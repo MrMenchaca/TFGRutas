@@ -1,12 +1,13 @@
 import { Component, Fragment, ReactElement } from 'react';
 import * as ReactDOM from "react-dom";
-import { Route, Routes, HashRouter} from "react-router-dom";
+import { Route, Routes, HashRouter, useParams} from "react-router-dom";
 import { Index } from "./Index/Index";
 import { Navigation } from "./Navigation";
 import { GoogleMaps } from "./GoogleMaps/GoogleMaps";
 import { IGN } from "./IGN/IGN";
 import { Importer } from './Importer/Importer';
 import { ListRoutes } from './ListRoutes/ListRoutes';
+import { SeeRoute, SeeRouteRouter } from './SeeRoute/SeeRoute';
 
 /**
  * Main component and router to access all pages in the app
@@ -20,11 +21,12 @@ export class App extends Component {
                     <Navigation/>     
                     <Routes>
                         <Route path="/" element={<Index/>}/>
-                        <Route path="index" element={<Index/>}/>
-                        <Route path="googleMaps" element={<GoogleMaps/>}/>
-                        <Route path="ign" element={<IGN/>}/>
-                        <Route path="importer" element={<Importer/>}/>
-                        <Route path="listRoutes" element={<ListRoutes/>}/>
+                        <Route path="/index" element={<Index/>}/>
+                        <Route path="/googleMaps" element={<GoogleMaps/>}/>
+                        <Route path="/ign" element={<IGN/>}/>
+                        <Route path="/importer" element={<Importer/>}/>
+                        <Route path="/listRoutes" element={<ListRoutes/>}/>
+                        <Route path="/seeRoute/:id" element={<SeeRouteRouter/>}/>
                     </Routes>
                 </HashRouter>
             </Fragment>

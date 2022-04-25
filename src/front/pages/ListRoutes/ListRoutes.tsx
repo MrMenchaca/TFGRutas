@@ -2,6 +2,7 @@ import { Component, Fragment, ReactElement } from "react";
 import { Route } from "../../../back/domain/Route";
 import { Database } from "../../../back/database/Database";
 import { Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 interface ListRoutesProps {}
 
@@ -23,7 +24,12 @@ export class ListRoutes extends Component<ListRoutesProps, ListRoutesState>{
         routes.forEach(function(route: Route){
             elements.push(
                 <Fragment>
-                    <li>{route.getName()} <Button variant="primary">Ver</Button></li>
+                    <li>
+                        {route.getName()}
+                        <Link to="/seeRoute/5">
+                            <Button variant="primary">Ver</Button>
+                        </Link>
+                    </li>
                 </Fragment>
             )
         });
@@ -31,6 +37,8 @@ export class ListRoutes extends Component<ListRoutesProps, ListRoutesState>{
     }
     
     public render(): ReactElement {       
+        
+        
         this.getRoutes().then(data =>
             this.setState({
                 routesNames: data
