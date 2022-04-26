@@ -22,11 +22,12 @@ export class ListRoutes extends Component<ListRoutesProps, ListRoutesState>{
         const elements: ReactElement[] = [];
         const routes: Route[] = await Database.getAllRoutes();
         routes.forEach(function(route: Route){
+            const link = "/seeRoute/" + route.getId()
             elements.push(
                 <Fragment>
                     <li>
                         {route.getName()}
-                        <Link to="/seeRoute/5">
+                        <Link to={link}>
                             <Button variant="primary">Ver</Button>
                         </Link>
                     </li>
@@ -36,15 +37,15 @@ export class ListRoutes extends Component<ListRoutesProps, ListRoutesState>{
         return elements;
     }
     
-    public render(): ReactElement {       
-        
-        
+    public componentDidMount(): void {
         this.getRoutes().then(data =>
             this.setState({
                 routesNames: data
             })
         );
+    }
 
+    public render(): ReactElement {       
         return (
             <Fragment>
                 <h1>Rutas</h1>

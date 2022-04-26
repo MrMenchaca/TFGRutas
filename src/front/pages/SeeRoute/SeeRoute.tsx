@@ -9,7 +9,7 @@ interface SeeRouteProps {
 }
 
 interface SeeRouteState {
-    route: Route;
+    route: string;
 }
 
 export class SeeRoute extends Component<SeeRouteProps, SeeRouteState>{            
@@ -20,10 +20,22 @@ export class SeeRoute extends Component<SeeRouteProps, SeeRouteState>{
         };
     }
     
+    private async getRoute(): Promise<Route> {
+        return await Database.getRouteById(this.props.id);
+    }
+
+    public componentDidMount(): void {
+        this.getRoute().then(data =>
+            this.setState({
+                route: data.getName()
+            })
+        );
+    }
+
     public render(): ReactElement {  
         return (
             <Fragment>
-                <h1>Ruta {this.props.id}</h1>
+                <h1>Ruta {this.state.route}</h1>
             </Fragment>
         );
     }
@@ -34,7 +46,6 @@ export function SeeRouteRouter(): ReactElement{
     // the dynamic pieces of the URL.
     const params = useParams();
     const id = params.id;
-    
     return (
         <Fragment>
             <SeeRoute id={id}/>

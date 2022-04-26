@@ -86,6 +86,26 @@ export class Database {
     }
 
     /**
+     * Get a route by _id. If there are two routes with same name, return first.
+     * 
+     * This method is async, so in order to use it, it will be necessary to resolve returned
+     * Promise (await or then()).
+     * 
+     * @param id Route's id
+     * @return Promise<Route>
+     */
+    public static async getRouteById(id: string): Promise<Route>{
+        const db = this.getInstance();
+        
+        return await new Promise((resolve, reject) => {
+            db.findOne({_id: id}, (err: Error, result: any) => {
+                if (err) reject(err);
+                resolve(Database.fromDbToRoute(result));
+            });
+        });
+    }
+
+    /**
      * Create a new Route from DB data (document)
      * 
      * Whether a route object can be returned directly, I don't know.
@@ -95,14 +115,14 @@ export class Database {
      * @return Route created
      */
     public static fromDbToRoute(document: any): Route{
-        //const id = document["_id"];
+        const id = document["_id"];
         const name = document["name"];
         const coordinates: Coordinate[] = [];
         document["coordinates"].forEach(function(coor: any){
             coordinates.push(new Coordinate(Number(coor["lat"]), Number(coor["lng"])));
         });
 
-        const route = new Route(name, coordinates);
+        const route = new Route(name, coordinates, id);
         return route;
     }
 }

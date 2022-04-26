@@ -8,9 +8,11 @@ export class Route {
 
 
     //Constructor
-    constructor(name: string, coordinates: Coordinate[]) {
+    constructor(name: string, coordinates: Coordinate[],
+         _id: string = null) {
         this.name = name;
         this.coordinates = coordinates;
+        this._id = _id;
     }
 
 
@@ -35,4 +37,5 @@ export class Route {
     //Getters
     public getName(): string { return this.name; }
     public getCoordinates(): Coordinate[] { return this.coordinates; }
+    public getId(): string { return this._id }
 }
