@@ -3,6 +3,9 @@ import * as path from 'path';
 import { ParserManager } from "../../../back/parsers/ParserManager";
 import { Database } from "../../../back/database/Database";
 
+/**
+ * Importer page
+ */
 export class Importer extends Component{ 
     private handleChange(event: any): void{
         //Obtenemos el parser correspondiente a la extensión del fichero

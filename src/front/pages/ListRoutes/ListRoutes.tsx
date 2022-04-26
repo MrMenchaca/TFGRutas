@@ -7,22 +7,27 @@ import { Link } from "react-router-dom";
 interface ListRoutesProps {}
 
 interface ListRoutesState {
-    routesNames: ReactElement[];
+    routes: ReactElement[];
 }
 
+/**
+ * ListRoutes page
+ */
 export class ListRoutes extends Component<ListRoutesProps, ListRoutesState>{     
     public constructor(props: ListRoutesProps) {
         super(props);
         this.state = {
-            routesNames: null,
+            routes: null,
         };
     }
     
     public async getRoutes(): Promise<ReactElement[]> {
-        const elements: ReactElement[] = [];
         const routes: Route[] = await Database.getAllRoutes();
+
+        //For each route, we create <li> to display it
+        const elements: ReactElement[] = [];
         routes.forEach(function(route: Route){
-            const link = "/seeRoute/" + route.getId()
+            const link = "/seeRoute/" + route.getId();
             elements.push(
                 <Fragment>
                     <li>
@@ -32,7 +37,7 @@ export class ListRoutes extends Component<ListRoutesProps, ListRoutesState>{
                         </Link>
                     </li>
                 </Fragment>
-            )
+            );
         });
         return elements;
     }
@@ -40,7 +45,7 @@ export class ListRoutes extends Component<ListRoutesProps, ListRoutesState>{
     public componentDidMount(): void {
         this.getRoutes().then(data =>
             this.setState({
-                routesNames: data
+                routes: data
             })
         );
     }
@@ -49,7 +54,9 @@ export class ListRoutes extends Component<ListRoutesProps, ListRoutesState>{
         return (
             <Fragment>
                 <h1>Rutas</h1>
-                <ul>{this.state.routesNames}</ul>
+                <ul>
+                    {this.state.routes}
+                </ul>
             </Fragment>
         );
     }

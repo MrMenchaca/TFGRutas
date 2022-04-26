@@ -1,8 +1,7 @@
 import { Component, Fragment, ReactElement } from "react";
 import { Route } from "../../../back/domain/Route";
 import { Database } from "../../../back/database/Database";
-import { Button } from "react-bootstrap";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 interface SeeRouteProps {
     id: string
@@ -12,6 +11,9 @@ interface SeeRouteState {
     route: string;
 }
 
+/**
+ * SeeRoute page
+ */
 export class SeeRoute extends Component<SeeRouteProps, SeeRouteState>{            
     public constructor(props: SeeRouteProps) {
         super(props);
@@ -41,6 +43,13 @@ export class SeeRoute extends Component<SeeRouteProps, SeeRouteState>{
     }
 }
 
+/**
+ * SeeRouteRouter function/component
+ * 
+ * This is necessary to use params in ListRoutes.
+ * To get params with react-router-dom, we have to use webHooks (useParams() in this case). We
+ * can't use webHooks inside class components, so function component is needed.
+ */
 export function SeeRouteRouter(): ReactElement{
     // We can use the `useParams` hook here to access
     // the dynamic pieces of the URL.
