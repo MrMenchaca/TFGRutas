@@ -39,7 +39,7 @@ export class GoogleMaps extends Component<GoogleMapsProps, GoogleMapsState>{
         const zoom = 9;
 
         //This "if" is needed to wait until routes are loaded to pass them as params
-        if (this.state == null) {
+        if (this.state == null || this.state.routes == null) {
             return (
                 <div className="App">Loading...</div>
             );

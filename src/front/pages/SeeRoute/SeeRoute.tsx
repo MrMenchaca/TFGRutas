@@ -48,7 +48,7 @@ export class SeeRoute extends Component<SeeRouteProps, SeeRouteState>{
         const zoom = 13;
         
         //This "if" is needed to wait until routes are loaded to pass them as params
-        if (this.state == null) {
+        if (this.state == null || this.state.routes == null) {
             return (
                 <div className="App">Loading...</div>
             );
@@ -56,7 +56,7 @@ export class SeeRoute extends Component<SeeRouteProps, SeeRouteState>{
         else {
             return (
                 <Fragment>
-                    <h1>Ruta</h1>
+                    <h1>Ruta {this.state.routes.at(0).getName()}</h1>
                     <Wrapper apiKey={"AIzaSyDBsrGdH36Y11o4Vx55Ew-0lN_LmL-5G6s"} render={render}>
                         {this.state.routes && <GoogleMapsMap center={this.state.center} zoom={zoom} routes={this.state.routes}/>}
                     </Wrapper>
