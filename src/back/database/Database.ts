@@ -57,6 +57,7 @@ export class Database {
             db.find({}, (err: Error, result: any[]) => {
                 if (err) reject(err);
                 const routes: Route[] = [];
+                // console.log(routes);
                 result.forEach(function(document: any){
                     routes.push(Database.fromDbToRoute(document));
                 });

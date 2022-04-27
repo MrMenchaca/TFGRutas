@@ -29,7 +29,7 @@ export class ListRoutes extends Component<ListRoutesProps, ListRoutesState>{
         routes.forEach(function(route: Route){
             const link = "/seeRoute/" + route.getId();
             elements.push(
-                <Fragment>
+                <Fragment key={route.getId()}>
                     <li>
                         {route.getName()}
                         <Link to={link}>

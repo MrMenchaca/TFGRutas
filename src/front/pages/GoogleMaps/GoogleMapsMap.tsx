@@ -8,6 +8,7 @@ import { Route } from '../../../back/domain/Route';
 interface MapProps {
     center: google.maps.LatLngLiteral;
     zoom: number;
+    routes: Route[];
 }
 
 interface MapState {
@@ -26,10 +27,9 @@ export class GoogleMapsMap extends Component<MapProps, MapState>{
         }
     }
 
-    private async getRoutes(): Promise<google.maps.Data.LineString[]> {
-        const routes = await Database.getAllRoutes();    
+    private getParsedRoutes(): google.maps.Data.LineString[] {  
         const coords: google.maps.Data.LineString[] = [];
-        routes.forEach(function (route: Route){
+        this.props.routes.forEach(function (route: Route){
             coords.push(new google.maps.Data.LineString(route.getGoogleMapsCoordinates()));
         });  
         return coords; 
@@ -45,11 +45,9 @@ export class GoogleMapsMap extends Component<MapProps, MapState>{
             },
         });
         
-        this.getRoutes().then(results => {
-            results.forEach(function(route){
-                map.data.add({
-                    geometry: route,
-                });
+        this.getParsedRoutes().forEach((route) => {
+            map.data.add({
+                geometry: route,
             });
         });
        
@@ -61,18 +59,17 @@ export class GoogleMapsMap extends Component<MapProps, MapState>{
         this.setState({ 
             map: map
         }, () => {
+            /*
             const marker = new google.maps.Marker({
                 map: map,
                 position: new google.maps.LatLng(43.524401, -5.923093),
                 title: "Marker A",
             })
-
-        /*
-        const kml = new google.maps.KmlLayer({
-            url: "https://googlearchive.github.io/js-v2-samples/ggeoxml/cta.kml",
-            map: this.state.map
-        })
-        */
+            const kml = new google.maps.KmlLayer({
+                url: "https://googlearchive.github.io/js-v2-samples/ggeoxml/cta.kml",
+                map: this.state.map
+            })
+            */
         });
     }
 

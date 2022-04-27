@@ -25,6 +25,11 @@ export class Route {
         return coords;
     }
 
+    public getGoogleMapsCenter(): {lat: number, lng: number}{
+        const firstCoordinate = this.coordinates.at(0);
+        return {lat: firstCoordinate.getLat(), lng: firstCoordinate.getLng()}
+    }
+
     public getIGNCoordinates(): number[][]{
         const coords: number[][] = [];
         this.getCoordinates().forEach(function(elem: Coordinate){
