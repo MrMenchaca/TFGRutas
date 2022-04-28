@@ -1,8 +1,5 @@
 import { Component, Fragment, ReactElement } from 'react';
-import { ParserManager } from '../../../back/parsers/ParserManager';
-import { Coordinate } from '../../../back/domain/Coordinate';
 import './../../AppStyle.css';
-import { Database } from '../../../back/database/Database';
 import { Route } from '../../../back/domain/Route';
 
 interface MapProps {

@@ -1,5 +1,4 @@
 import { Component, Fragment, ReactElement } from "react";
-import * as path from 'path';
 import { ParserManager } from "../../../back/parsers/ParserManager";
 import { Database } from "../../../back/database/Database";
 

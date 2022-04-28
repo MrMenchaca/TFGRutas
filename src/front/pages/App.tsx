@@ -1,6 +1,6 @@
 import { Component, Fragment, ReactElement } from 'react';
 import * as ReactDOM from "react-dom";
-import { Route, Routes, HashRouter, useParams} from "react-router-dom";
+import { Route, Routes, HashRouter} from "react-router-dom";
 import { Index } from "./Index/Index";
 import { Navigation } from "./Navigation";
 import { GoogleMaps } from "./GoogleMaps/GoogleMaps";
