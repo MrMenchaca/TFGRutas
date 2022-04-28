@@ -8,6 +8,7 @@ import { IGN } from "./IGN/IGN";
 import { Importer } from './Importer/Importer';
 import { ListRoutes } from './ListRoutes/ListRoutes';
 import { SeeRouteRouter } from './SeeRoute/SeeRoute';
+import 'bootstrap/dist/css/bootstrap';
 
 /**
  * Main component and router to access all pages in the app

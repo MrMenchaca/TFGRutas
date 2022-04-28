@@ -17,6 +17,13 @@ interface GoogleMapsState {
  * GoogleMaps page
  */
 export class GoogleMaps extends Component<GoogleMapsProps, GoogleMapsState>{  
+    public constructor(props: GoogleMapsProps){
+        super(props);
+        this.state = {
+            routes: null,
+        }
+    }
+    
     public componentDidMount(): void {
         Database.getAllRoutes().then(data =>
             this.setState({

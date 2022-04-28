@@ -16,12 +16,13 @@ import Stroke from "ol/style/Stroke";
 import LineString from "ol/geom/LineString";
 import './../../AppStyle.css';
 import "ol/ol.css";
-import { ParserManager } from '../../../back/parsers/ParserManager';
 import { Database } from "../../../back/database/Database";
 import { Route } from "../../../back/domain/Route";
 
 
-interface MapProps {}
+interface MapProps {
+    routes: Route[];
+}
 
 interface MapState {
   //Class to create object from api
@@ -39,8 +40,8 @@ export class IGNMap extends Component<MapProps, MapState> {
         };
     }
 
-    private async getRoutes(): Promise<VectorLayer<any>[]> {
-        const routes = await Database.getAllRoutes();    
+    private getRoutes(): VectorLayer<any>[] {
+        const routes = this.props.routes;    
         const coords: VectorLayer<any>[] = [];
         routes.forEach(function (route: Route){
             //Se puede pasar un tercer parámetro para la altitud
@@ -69,30 +70,30 @@ export class IGNMap extends Component<MapProps, MapState> {
 
     private getBasicLayers(): Layer<any, any>[]{
         const layers: Layer<any, any>[] = [ 
-        //Grey background    
-        new TileLayer({
-            source: new TileWMS({  
-            url: "https://www.ign.es/wms-inspire/ign-base",
-            params: { "LAYERS": "IGNBaseTodo-gris" }
-            })
-        }),
-
-        //Raster map
-        new TileLayer({
-            source: new TileWMS({  
-            url: "https://www.ign.es/wms-inspire/mapa-raster",
-            params: { "LAYERS": "mtn_rasterizado" }
-            })
-        }),
-
-        /*
-        new VectorLayer({
-            source: new VectorSource({
-            url: 'https://openlayers.org/en/latest/examples/data/kml/2012-02-10.kml',
-            format: new KML(),
+            //Grey background    
+            new TileLayer({
+                source: new TileWMS({  
+                url: "https://www.ign.es/wms-inspire/ign-base",
+                params: { "LAYERS": "IGNBaseTodo-gris" }
+                })
             }),
-        }),
-        */
+
+            //Raster map
+            new TileLayer({
+                source: new TileWMS({  
+                url: "https://www.ign.es/wms-inspire/mapa-raster",
+                params: { "LAYERS": "mtn_rasterizado" }
+                })
+            }),
+
+            /*
+            new VectorLayer({
+                source: new VectorSource({
+                url: 'https://openlayers.org/en/latest/examples/data/kml/2012-02-10.kml',
+                format: new KML(),
+                }),
+            }),
+            */
         ];
         return layers;
     }
@@ -109,11 +110,9 @@ export class IGNMap extends Component<MapProps, MapState> {
                 })
             })
         }, () => {
-            this.getRoutes().then(results => {
-                results.forEach(function(route){
-                    this.state.map.addLayer(route);
-                }, this);
-            });
+            this.getRoutes().forEach((route) => {
+                this.state.map.addLayer(route);
+            }, this);
         });
     }
 
