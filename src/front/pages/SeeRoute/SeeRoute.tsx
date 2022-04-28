@@ -4,7 +4,8 @@ import { Database } from "../../../back/database/Database";
 import { useParams } from "react-router-dom";
 import { GoogleMapsMap } from "../GoogleMaps/GoogleMapsMap";
 import { Status, Wrapper } from "@googlemaps/react-wrapper";
-import { Spinner } from "react-bootstrap";
+import { Spinner, ToggleButton, ToggleButtonGroup } from "react-bootstrap";
+import { IGNMap } from "../IGN/IGNMap";
 
 interface SeeRouteProps {
     id: string
@@ -13,6 +14,7 @@ interface SeeRouteProps {
 interface SeeRouteState {
     routes: Route[];
     center: google.maps.LatLngLiteral;
+    map: ReactElement;
 }
 
 /**
@@ -23,7 +25,8 @@ export class SeeRoute extends Component<SeeRouteProps, SeeRouteState>{
         super(props);
         this.state = {
             routes: null,
-            center: null
+            center: null,
+            map: null
         };
     }
 
@@ -31,22 +34,40 @@ export class SeeRoute extends Component<SeeRouteProps, SeeRouteState>{
         Database.getRouteById(this.props.id).then(data =>
             this.setState({
                 routes: [data],
-                center: data.getGoogleMapsCenter()
+                center: data.getGoogleMapsCenter(),
+            }, () => {
+                this.setState({
+                    map: <Wrapper apiKey={"AIzaSyDBsrGdH36Y11o4Vx55Ew-0lN_LmL-5G6s"} render={this.renderMap}>
+                            <GoogleMapsMap center={this.state.center} zoom={13} routes={this.state.routes}/>
+                        </Wrapper>
+                })
             })
         );
     }
 
-    public render(): ReactElement {  
-        //Arrow function to return result of calling GoogleMapsApi
-        const render = (status: Status): React.ReactElement => {
+    public handleChange(value: any): any {
+        if(value=="googleMaps"){
+            this.setState({
+                map: <Wrapper apiKey={"AIzaSyDBsrGdH36Y11o4Vx55Ew-0lN_LmL-5G6s"} render={this.renderMap}>
+                        <GoogleMapsMap center={this.state.center} zoom={13} routes={this.state.routes}/>
+                    </Wrapper>
+            });
+        }
+        else if(value=="ign"){
+            this.setState({
+                map: <IGNMap routes={this.state.routes}/>
+            });
+        }
+    }
+
+    //Function to return result of calling GoogleMapsApi
+    public renderMap(status: Status): React.ReactElement {
         if (status === Status.FAILURE) 
             return <h1>{status}</h1>;
         return <Spinner animation="border"/>;
-        };
+    }
 
-        //Pass zoom to map component
-        const zoom = 13;
-        
+    public render(): ReactElement {         
         //This "if" is needed to wait until routes are loaded to pass them as params
         if (this.state == null || this.state.routes == null) {
             return (
@@ -57,9 +78,11 @@ export class SeeRoute extends Component<SeeRouteProps, SeeRouteState>{
             return (
                 <Fragment>
                     <h1>Ruta {this.state.routes.at(0).getName()}</h1>
-                    <Wrapper apiKey={"AIzaSyDBsrGdH36Y11o4Vx55Ew-0lN_LmL-5G6s"} render={render}>
-                        {this.state.routes && <GoogleMapsMap center={this.state.center} zoom={zoom} routes={this.state.routes}/>}
-                    </Wrapper>
+                    <ToggleButtonGroup type="checkbox" value={["googleMaps", "ign"]} onChange={this.handleChange.bind(this)}>
+                        <ToggleButton id="tbg-btn-1" value={"ign"}>GoogleMaps</ToggleButton>
+                        <ToggleButton id="tbg-btn-2" value={"googleMaps"}>IGN</ToggleButton>
+                    </ToggleButtonGroup>
+                    {this.state.map}
                 </Fragment>
             );
         }
