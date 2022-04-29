@@ -18,9 +18,13 @@ import './../../AppStyle.css';
 import "ol/ol.css";
 import { Database } from "../../../back/database/Database";
 import { Route } from "../../../back/domain/Route";
+import { fromLonLat } from "ol/proj";
+import { Coordinate } from "../../../back/domain/Coordinate";
 
 
 interface MapProps {
+    center: Coordinate;
+    zoom: number;
     routes: Route[];
 }
 
@@ -115,8 +119,8 @@ export class IGNMap extends Component<MapProps, MapState> {
                 layers: this.getBasicLayers(),
                 view: new View({
                     //ol.proj.fromLonLat([54.081, 32.908])
-                    center: [0, 0],
-                    zoom: 4
+                    center: this.props.center.getIGNCenter(),
+                    zoom: this.props.zoom
                 })
             })
         }, () => {

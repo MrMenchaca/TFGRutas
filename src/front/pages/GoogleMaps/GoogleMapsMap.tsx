@@ -1,9 +1,10 @@
 import { Component, Fragment, ReactElement } from 'react';
 import './../../AppStyle.css';
 import { Route } from '../../../back/domain/Route';
+import { Coordinate } from '../../../back/domain/Coordinate';
 
 interface MapProps {
-    center: google.maps.LatLngLiteral;
+    center: Coordinate;
     zoom: number;
     routes: Route[];
 }
@@ -40,7 +41,7 @@ export class GoogleMapsMap extends Component<MapProps, MapState>{
     public componentDidMount(): void {
         //Create the map
         const map = new window.google.maps.Map(document.getElementById("map") as HTMLElement, {
-            center: this.props.center,
+            center: this.props.center.getGoogleMapsStructure(),
             zoom: this.props.zoom,
             mapTypeControlOptions: {
                 mapTypeIds: ["roadmap", "satellite", "hybrid", "terrain"],

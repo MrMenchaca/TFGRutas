@@ -20,24 +20,22 @@ export class Route {
     public getGoogleMapsCoordinates(): {lat: number, lng: number}[]{
         const coords: {lat: number, lng: number}[] = [];
         this.getCoordinates().forEach(function(elem: Coordinate){
-            coords.push({lat: elem.getLat(), lng: elem.getLng()});
+            coords.push(elem.getGoogleMapsStructure());
         });
         return coords;
-    }
-
-    public getGoogleMapsCenter(): {lat: number, lng: number}{
-        const firstCoordinate = this.coordinates.at(0);
-        return {lat: firstCoordinate.getLat(), lng: firstCoordinate.getLng()}
     }
 
     public getIGNCoordinates(): number[][]{
         const coords: number[][] = [];
         this.getCoordinates().forEach(function(elem: Coordinate){
-            coords.push([elem.getLng(), elem.getLat()]);
+            coords.push(elem.getIGNStructure());
         });
         return coords;
     }
 
+    public getCenter(): Coordinate{
+        return this.coordinates.at(0);
+    }
 
     //Getters
     public getName(): string { return this.name; }
