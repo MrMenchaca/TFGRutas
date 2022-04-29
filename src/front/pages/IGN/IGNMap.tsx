@@ -40,6 +40,11 @@ export class IGNMap extends Component<MapProps, MapState> {
         };
     }
 
+    /**
+     * Parse routes so that OpenLayers can read it
+     * 
+     * @return VectorLayer<any>[]
+     */
     private getRoutes(): VectorLayer<any>[] {
         const routes = this.props.routes;    
         const coords: VectorLayer<any>[] = [];
@@ -68,6 +73,11 @@ export class IGNMap extends Component<MapProps, MapState> {
         return coords; 
     }
 
+    /**
+     * Add basic layers to map
+     * 
+     * @return Layer<any, any>[]
+     */
     private getBasicLayers(): Layer<any, any>[]{
         const layers: Layer<any, any>[] = [ 
             //Grey background    

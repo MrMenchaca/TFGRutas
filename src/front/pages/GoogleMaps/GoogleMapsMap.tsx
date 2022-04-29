@@ -24,6 +24,11 @@ export class GoogleMapsMap extends Component<MapProps, MapState>{
         }
     }
 
+    /**
+     * Parse routes so that GoogleMaps can read it
+     * 
+     * @return google.maps.Data.LineString[]
+     */
     private getParsedRoutes(): google.maps.Data.LineString[] {  
         const coords: google.maps.Data.LineString[] = [];
         this.props.routes.forEach(function (route: Route){
