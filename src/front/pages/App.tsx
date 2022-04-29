@@ -9,6 +9,7 @@ import { Importer } from './Importer/Importer';
 import { ListRoutes } from './ListRoutes/ListRoutes';
 import { SeeRouteRouter } from './SeeRoute/SeeRoute';
 import 'bootstrap/dist/css/bootstrap';
+import { AllRoutes } from './AllRoutes/AllRoutes';
 
 /**
  * Main component and router to access all pages in the app
@@ -27,6 +28,7 @@ export class App extends Component {
                         <Route path="/ign" element={<IGN/>}/>
                         <Route path="/importer" element={<Importer/>}/>
                         <Route path="/listRoutes" element={<ListRoutes/>}/>
+                        <Route path="/allRoutes" element={<AllRoutes/>}/>
                         <Route path="/seeRoute/:id" element={<SeeRouteRouter/>}/>
                     </Routes>
                 </HashRouter>
