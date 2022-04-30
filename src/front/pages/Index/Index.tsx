@@ -1,5 +1,4 @@
 import { Component, Fragment, ReactElement } from 'react';
-import 'bootstrap/dist/css/bootstrap'
 import Container from 'react-bootstrap/Container';
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -27,6 +26,9 @@ export class Index extends Component {
                         </Col>
                         <Col md="auto">
                             <Link className="btn btn-outline-primary" to="importer">Importer</Link>
+                        </Col>
+                        <Col md="auto">
+                            <Link className="btn btn-outline-primary" to="listRoutes">Rutas</Link>
                         </Col>
                     </Row> 
                 </Container>

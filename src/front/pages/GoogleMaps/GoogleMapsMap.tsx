@@ -1,13 +1,12 @@
 import { Component, Fragment, ReactElement } from 'react';
-import { ParserManager } from '../../../back/parsers/ParserManager';
-import { Coordinate } from '../../../back/domain/Coordinate';
 import './../../AppStyle.css';
-import { Database } from '../../../back/database/Database';
 import { Route } from '../../../back/domain/Route';
+import { Coordinate } from '../../../back/domain/Coordinate';
 
 interface MapProps {
-    center: google.maps.LatLngLiteral;
+    center: Coordinate;
     zoom: number;
+    routes: Route[];
 }
 
 interface MapState {
@@ -26,10 +25,14 @@ export class GoogleMapsMap extends Component<MapProps, MapState>{
         }
     }
 
-    private async getRoutes(): Promise<google.maps.Data.LineString[]> {
-        const routes = await Database.getAllRoutes();    
+    /**
+     * Parse routes so that GoogleMaps can read it
+     * 
+     * @return google.maps.Data.LineString[]
+     */
+    private getParsedRoutes(): google.maps.Data.LineString[] {  
         const coords: google.maps.Data.LineString[] = [];
-        routes.forEach(function (route: Route){
+        this.props.routes.forEach(function (route: Route){
             coords.push(new google.maps.Data.LineString(route.getGoogleMapsCoordinates()));
         });  
         return coords; 
@@ -38,18 +41,16 @@ export class GoogleMapsMap extends Component<MapProps, MapState>{
     public componentDidMount(): void {
         //Create the map
         const map = new window.google.maps.Map(document.getElementById("map") as HTMLElement, {
-            center: this.props.center,
+            center: this.props.center.getGoogleMapsStructure(),
             zoom: this.props.zoom,
             mapTypeControlOptions: {
                 mapTypeIds: ["roadmap", "satellite", "hybrid", "terrain"],
             },
         });
         
-        this.getRoutes().then(results => {
-            results.forEach(function(route){
-                map.data.add({
-                    geometry: route,
-                });
+        this.getParsedRoutes().forEach((route) => {
+            map.data.add({
+                geometry: route,
             });
         });
        
@@ -61,18 +62,17 @@ export class GoogleMapsMap extends Component<MapProps, MapState>{
         this.setState({ 
             map: map
         }, () => {
+            /*
             const marker = new google.maps.Marker({
                 map: map,
                 position: new google.maps.LatLng(43.524401, -5.923093),
                 title: "Marker A",
             })
-
-        /*
-        const kml = new google.maps.KmlLayer({
-            url: "https://googlearchive.github.io/js-v2-samples/ggeoxml/cta.kml",
-            map: this.state.map
-        })
-        */
+            const kml = new google.maps.KmlLayer({
+                url: "https://googlearchive.github.io/js-v2-samples/ggeoxml/cta.kml",
+                map: this.state.map
+            })
+            */
         });
     }
 

@@ -16,12 +16,17 @@ import Stroke from "ol/style/Stroke";
 import LineString from "ol/geom/LineString";
 import './../../AppStyle.css';
 import "ol/ol.css";
-import { ParserManager } from '../../../back/parsers/ParserManager';
 import { Database } from "../../../back/database/Database";
 import { Route } from "../../../back/domain/Route";
+import { fromLonLat } from "ol/proj";
+import { Coordinate } from "../../../back/domain/Coordinate";
 
 
-interface MapProps {}
+interface MapProps {
+    center: Coordinate;
+    zoom: number;
+    routes: Route[];
+}
 
 interface MapState {
   //Class to create object from api
@@ -39,8 +44,13 @@ export class IGNMap extends Component<MapProps, MapState> {
         };
     }
 
-    private async getRoutes(): Promise<VectorLayer<any>[]> {
-        const routes = await Database.getAllRoutes();    
+    /**
+     * Parse routes so that OpenLayers can read it
+     * 
+     * @return VectorLayer<any>[]
+     */
+    private getRoutes(): VectorLayer<any>[] {
+        const routes = this.props.routes;    
         const coords: VectorLayer<any>[] = [];
         routes.forEach(function (route: Route){
             //Se puede pasar un tercer parámetro para la altitud
@@ -67,32 +77,37 @@ export class IGNMap extends Component<MapProps, MapState> {
         return coords; 
     }
 
+    /**
+     * Add basic layers to map
+     * 
+     * @return Layer<any, any>[]
+     */
     private getBasicLayers(): Layer<any, any>[]{
         const layers: Layer<any, any>[] = [ 
-        //Grey background    
-        new TileLayer({
-            source: new TileWMS({  
-            url: "https://www.ign.es/wms-inspire/ign-base",
-            params: { "LAYERS": "IGNBaseTodo-gris" }
-            })
-        }),
-
-        //Raster map
-        new TileLayer({
-            source: new TileWMS({  
-            url: "https://www.ign.es/wms-inspire/mapa-raster",
-            params: { "LAYERS": "mtn_rasterizado" }
-            })
-        }),
-
-        /*
-        new VectorLayer({
-            source: new VectorSource({
-            url: 'https://openlayers.org/en/latest/examples/data/kml/2012-02-10.kml',
-            format: new KML(),
+            //Grey background    
+            new TileLayer({
+                source: new TileWMS({  
+                url: "https://www.ign.es/wms-inspire/ign-base",
+                params: { "LAYERS": "IGNBaseTodo-gris" }
+                })
             }),
-        }),
-        */
+
+            //Raster map
+            new TileLayer({
+                source: new TileWMS({  
+                url: "https://www.ign.es/wms-inspire/mapa-raster",
+                params: { "LAYERS": "mtn_rasterizado" }
+                })
+            }),
+
+            /*
+            new VectorLayer({
+                source: new VectorSource({
+                url: 'https://openlayers.org/en/latest/examples/data/kml/2012-02-10.kml',
+                format: new KML(),
+                }),
+            }),
+            */
         ];
         return layers;
     }
@@ -104,16 +119,14 @@ export class IGNMap extends Component<MapProps, MapState> {
                 layers: this.getBasicLayers(),
                 view: new View({
                     //ol.proj.fromLonLat([54.081, 32.908])
-                    center: [0, 0],
-                    zoom: 4
+                    center: this.props.center.getIGNCenter(),
+                    zoom: this.props.zoom
                 })
             })
         }, () => {
-            this.getRoutes().then(results => {
-                results.forEach(function(route){
-                    this.state.map.addLayer(route);
-                }, this);
-            });
+            this.getRoutes().forEach((route) => {
+                this.state.map.addLayer(route);
+            }, this);
         });
     }
 

@@ -1,3 +1,5 @@
+import { fromLonLat } from "ol/proj";
+
 export class Coordinate {
     //Attributes
     private lat: number;
@@ -10,7 +12,17 @@ export class Coordinate {
     }
 
     //Functions
+    public getGoogleMapsStructure(): {lat: number, lng: number}{
+        return {lat: this.getLat(), lng: this.getLng()};
+    }
 
+    public getIGNStructure(): number[]{
+        return [this.getLng(), this.getLat()];
+    }
+
+    public getIGNCenter(): number[]{
+        return fromLonLat([this.getLng(), this.getLat()]);
+    }
     
     //Getters
     public getLat(): number { return this.lat; }
