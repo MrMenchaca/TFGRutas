@@ -1,15 +1,13 @@
 import { Component, Fragment, ReactElement } from 'react';
 import * as ReactDOM from "react-dom";
 import { Route, Routes, HashRouter} from "react-router-dom";
-import { Index } from "./Index/Index";
-import { Navigation } from "./Navigation";
-import { GoogleMaps } from "./GoogleMaps/GoogleMaps";
-import { IGN } from "./IGN/IGN";
-import { Importer } from './Importer/Importer';
-import { ListRoutes } from './ListRoutes/ListRoutes';
-import { SeeRouteRouter } from './SeeRoute/SeeRoute';
+import { Index } from "./Index";
+import { Navigation } from "./components/Navigation";
+import { Importer } from './Importer';
+import { ListRoutes } from './ListRoutes';
+import { SeeRouteRouter } from './SeeRoute';
 import 'bootstrap/dist/css/bootstrap';
-import { AllRoutes } from './AllRoutes/AllRoutes';
+import { AllRoutes } from './AllRoutes';
 
 /**
  * Main component and router to access all pages in the app
@@ -24,8 +22,6 @@ export class App extends Component {
                     <Routes>
                         <Route path="/" element={<Index/>}/>
                         <Route path="/index" element={<Index/>}/>
-                        <Route path="/googleMaps" element={<GoogleMaps/>}/>
-                        <Route path="/ign" element={<IGN/>}/>
                         <Route path="/importer" element={<Importer/>}/>
                         <Route path="/listRoutes" element={<ListRoutes/>}/>
                         <Route path="/allRoutes" element={<AllRoutes/>}/>

@@ -1,6 +1,6 @@
 import { Component, Fragment, ReactElement } from "react";
-import { Route } from "../../../back/domain/Route";
-import { Database } from "../../../back/database/Database";
+import { Route } from "../../back/domain/Route";
+import { Database } from "../../back/database/Database";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 

@@ -4,8 +4,13 @@ body {
     padding: 2rem;
 }
 
-.map-size {
+.general-map-size {
     height: 800px; 
     width: 1000px;
+}
+
+.single-map-size {
+    height: 400px; 
+    width: 800px;
 }
 

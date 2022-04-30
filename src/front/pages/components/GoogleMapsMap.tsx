@@ -7,6 +7,7 @@ interface MapProps {
     center: Coordinate;
     zoom: number;
     routes: Route[];
+    style: string;
 }
 
 interface MapState {
@@ -79,7 +80,7 @@ export class GoogleMapsMap extends Component<MapProps, MapState>{
     public render(): ReactElement {
         return (
             <Fragment>
-                <div id="map" className="map-size"></div>
+                <div id="map" className={this.props.style}></div>
             </Fragment>
         );
     }

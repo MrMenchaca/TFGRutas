@@ -1,12 +1,12 @@
 import { Component, Fragment, ReactElement } from "react";
-import { Route } from "../../../back/domain/Route";
-import { Database } from "../../../back/database/Database";
+import { Route } from "../../back/domain/Route";
+import { Database } from "../../back/database/Database";
 import { useParams } from "react-router-dom";
-import { GoogleMapsMap } from "../GoogleMaps/GoogleMapsMap";
+import { GoogleMapsMap } from "./components/GoogleMapsMap";
 import { Status, Wrapper } from "@googlemaps/react-wrapper";
 import { Spinner, ToggleButton, ToggleButtonGroup } from "react-bootstrap";
-import { IGNMap } from "../IGN/IGNMap";
-import { Coordinate } from "../../../back/domain/Coordinate";
+import { IGNMap } from "./components/IGNMap";
+import { Coordinate } from "../../back/domain/Coordinate";
 
 interface SeeRouteProps {
     id: string
@@ -42,7 +42,11 @@ export class SeeRoute extends Component<SeeRouteProps, SeeRouteState>{
             }, () => {
                 this.setState({
                     map: <Wrapper apiKey={"AIzaSyDBsrGdH36Y11o4Vx55Ew-0lN_LmL-5G6s"} render={this.renderMap}>
-                            <GoogleMapsMap center={this.state.center} zoom={this.state.zoom} routes={this.state.routes}/>
+                            <GoogleMapsMap 
+                            center={this.state.center} 
+                            zoom={this.state.zoom} 
+                            routes={this.state.routes}
+                            style={"single-map-size"}/>
                         </Wrapper>
                 })
             })
@@ -53,13 +57,21 @@ export class SeeRoute extends Component<SeeRouteProps, SeeRouteState>{
         if(value=="googleMaps"){
             this.setState({
                 map: <Wrapper apiKey={"AIzaSyDBsrGdH36Y11o4Vx55Ew-0lN_LmL-5G6s"} render={this.renderMap}>
-                        <GoogleMapsMap center={this.state.center} zoom={this.state.zoom} routes={this.state.routes}/>
+                        <GoogleMapsMap 
+                        center={this.state.center} 
+                        zoom={this.state.zoom} 
+                        routes={this.state.routes}
+                        style={"single-map-size"}/>
                     </Wrapper>
             });
         }
         else if(value=="ign"){
             this.setState({
-                map: <IGNMap center={this.state.center} zoom={this.state.zoom} routes={this.state.routes}/>
+                map: <IGNMap 
+                center={this.state.center} 
+                zoom={this.state.zoom} 
+                routes={this.state.routes}
+                style={"single-map-size"}/>
             });
         }
     }

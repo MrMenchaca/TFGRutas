@@ -1,6 +1,6 @@
 import { Component, Fragment, ReactElement } from "react";
-import { ParserManager } from "../../../back/parsers/ParserManager";
-import { Database } from "../../../back/database/Database";
+import { ParserManager } from "../../back/parsers/ParserManager";
+import { Database } from "../../back/database/Database";
 
 /**
  * Importer page

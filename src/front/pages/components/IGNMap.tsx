@@ -1,24 +1,18 @@
 import React, { Component, Fragment, ReactElement } from "react";
 import Map from "ol/Map";
 import View from "ol/View";
-import KML from 'ol/format/KML';
-import GPX from 'ol/format/GPX';
 import TileLayer from "ol/layer/Tile";
 import TileWMS from "ol/source/TileWMS";
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import Style from 'ol/style/Style'
-import Icon from 'ol/style/Icon'
 import Layer from "ol/layer/Layer";
 import Feature from 'ol/Feature'
-import Point from "ol/geom/Point"
 import Stroke from "ol/style/Stroke";
 import LineString from "ol/geom/LineString";
 import './../../AppStyle.css';
 import "ol/ol.css";
-import { Database } from "../../../back/database/Database";
 import { Route } from "../../../back/domain/Route";
-import { fromLonLat } from "ol/proj";
 import { Coordinate } from "../../../back/domain/Coordinate";
 
 
@@ -26,6 +20,7 @@ interface MapProps {
     center: Coordinate;
     zoom: number;
     routes: Route[];
+    style: string;
 }
 
 interface MapState {
@@ -133,7 +128,7 @@ export class IGNMap extends Component<MapProps, MapState> {
     public render(): ReactElement {
         return (
             <Fragment>
-                <div id="ignMap" className="map-size"></div>
+                <div id="ignMap" className={this.props.style}></div>
             </Fragment>
         );
     }
