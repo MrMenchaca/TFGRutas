@@ -7,6 +7,10 @@ import { Status, Wrapper } from "@googlemaps/react-wrapper";
 import { Spinner, ToggleButton, ToggleButtonGroup } from "react-bootstrap";
 import { IGNMap } from "./components/IGNMap";
 import { Coordinate } from "../../back/domain/Coordinate";
+import * as d3 from "d3";
+import Chart from "./components/Chart";
+import "../AppStyle.css";
+
 
 interface SeeRouteProps {
     id: string
@@ -87,18 +91,20 @@ export class SeeRoute extends Component<SeeRouteProps, SeeRouteState>{
         //This "if" is needed to wait until routes are loaded to pass them as params
         if (this.state == null || this.state.routes == null) {
             return (
-                <div className="App">Loading...</div>
+                <div>Loading...</div>
             );
         }
         else {
             return (
                 <Fragment>
-                    <h1>Ruta {this.state.routes.at(0).getName()}</h1>
+                    <h1 className="pageTitle">Ruta {this.state.routes.at(0).getName()}</h1>
                     <ToggleButtonGroup type="checkbox" value={["googleMaps", "ign"]} onChange={this.handleChange.bind(this)}>
                         <ToggleButton id="tbg-btn-1" value={"ign"}>GoogleMaps</ToggleButton>
                         <ToggleButton id="tbg-btn-2" value={"googleMaps"}>IGN</ToggleButton>
                     </ToggleButtonGroup>
                     {this.state.map}
+                    <Chart data={this.state.routes.at(0).getElevationProfile()}/>
+
                 </Fragment>
             );
         }

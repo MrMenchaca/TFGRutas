@@ -63,8 +63,8 @@ export class IGNMap extends Component<MapProps, MapState> {
                 }),
                 style: new Style({
                     stroke: new Stroke({
-                        color: 'red',
-                        width: 5
+                        color: 'black',
+                        width: 3
                     })
                 })
             }));

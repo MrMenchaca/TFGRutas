@@ -11,8 +11,7 @@ export class TcxParser extends AbstractParser {
         const fileCoordinates: any[] = file["TrainingCenterDatabase"]["Courses"]["Course"]["Track"]["Trackpoint"];
         const customCoordinates: Coordinate[] = [];
         fileCoordinates.forEach(function(coor: any){
-            customCoordinates.push(new Coordinate(Number(coor["Position"]["LatitudeDegrees"]), Number(coor["Position"]["LongitudeDegrees"]) 
-            ));
+            customCoordinates.push(new Coordinate(Number(coor["Position"]["LatitudeDegrees"]), Number(coor["Position"]["LongitudeDegrees"]), Number(coor["AltitudeMeters"])));
         });
         
         return new Route(name, customCoordinates);

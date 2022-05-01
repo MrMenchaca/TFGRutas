@@ -3,6 +3,8 @@ import { Route } from "../../back/domain/Route";
 import { Database } from "../../back/database/Database";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import "../AppStyle.css";
+
 
 interface ListRoutesProps {}
 
@@ -53,7 +55,7 @@ export class ListRoutes extends Component<ListRoutesProps, ListRoutesState>{
     public render(): ReactElement {       
         return (
             <Fragment>
-                <h1>Rutas</h1>
+                <h1 className="pageTitle">Rutas</h1>
                 <ul>
                     {this.state.routes}
                 </ul>

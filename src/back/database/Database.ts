@@ -120,7 +120,7 @@ export class Database {
         const name = document["name"];
         const coordinates: Coordinate[] = [];
         document["coordinates"].forEach(function(coor: any){
-            coordinates.push(new Coordinate(Number(coor["lat"]), Number(coor["lng"])));
+            coordinates.push(new Coordinate(Number(coor["lat"]), Number(coor["lng"]), Number(coor["alt"])));
         });
 
         const route = new Route(name, coordinates, id);

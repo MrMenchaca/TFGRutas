@@ -34,7 +34,26 @@ export class Route {
     }
 
     public getCenter(): Coordinate{
-        return this.coordinates.at(0);
+        let altitude = 0;
+        let longitude = 0;
+        for(let i=0; i < this.coordinates.length; i ++){
+            altitude += this.coordinates[i].getLat();
+            longitude += this.coordinates[i].getLng();
+        }
+        altitude = altitude/this.coordinates.length;
+        longitude = longitude/this.coordinates.length;
+
+        return new Coordinate(altitude, longitude, 0);
+    }
+
+    public getElevationProfile(): [number, number][]{
+        const coords: [number, number][] = [];
+        let x = 0;
+        this.getCoordinates().forEach((coor: Coordinate) => { 
+            coords.push([x, coor.getAlt()]);
+            x++;
+        });
+        return coords;
     }
 
     //Getters

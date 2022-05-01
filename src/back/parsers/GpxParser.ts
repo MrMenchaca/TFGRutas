@@ -11,7 +11,7 @@ export class GpxParser extends AbstractParser {
         const fileCoordinates: any[] = file["gpx"]["trk"]["trkseg"]["trkpt"];
         const customCoordinates: Coordinate[] = [];
         fileCoordinates.forEach(function(coor: any){
-            customCoordinates.push(new Coordinate(Number(coor["@_lat"]), Number(coor["@_lon"])));
+            customCoordinates.push(new Coordinate(Number(coor["@_lat"]), Number(coor["@_lon"]), coor["ele"]));
         });
         
         return new Route(name, customCoordinates);

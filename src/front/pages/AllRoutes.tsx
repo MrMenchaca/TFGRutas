@@ -8,6 +8,8 @@ import { IGNMap } from "./components/IGNMap";
 import { Coordinate } from "../../back/domain/Coordinate";
 import SidebarMenu from 'react-bootstrap-sidebar-menu';
 import { Route } from "../../back/domain/Route";
+import "../AppStyle.css";
+
 
 interface AllRoutesProps {}
 
@@ -32,7 +34,7 @@ export class AllRoutes extends Component<AllRoutesProps, AllRoutesState>{
         this.state = {
             mapRoutes: [],
             listRoutes: this.parseRoutesToList(),
-            center: new Coordinate(43.363129, -5.951843),
+            center: new Coordinate(43.363129, -5.951843, 0),
             zoom: 9,
             mapElement: null,
             actualMap: this.GOOGLE_MAPS
@@ -129,7 +131,11 @@ export class AllRoutes extends Component<AllRoutesProps, AllRoutesState>{
     public render(): ReactElement {         
         return (
             <Fragment>
-                <h1>Rutas</h1>
+                <Row className="justify-content-md-center">
+                    <Col md="auto">
+                        <h1 className="pageTitle">Rutas</h1>
+                    </Col>
+                </Row>
                 <Row className="justify-content-md-center">
                     <Col>
                         <SidebarMenu>

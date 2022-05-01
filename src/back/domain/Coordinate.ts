@@ -4,11 +4,13 @@ export class Coordinate {
     //Attributes
     private lat: number;
     private lng: number;
+    private alt: number;
 
     //Constructor
-    public constructor(lat: number, lng: number){
+    public constructor(lat: number, lng: number, alt: number){
         this.lat = lat;
         this.lng = lng;
+        this.alt = alt;
     }
 
     //Functions
@@ -27,4 +29,5 @@ export class Coordinate {
     //Getters
     public getLat(): number { return this.lat; }
     public getLng(): number { return this.lng; }
+    public getAlt(): number { return this.alt; }
 }

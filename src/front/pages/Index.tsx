@@ -2,7 +2,8 @@ import { Component, Fragment, ReactElement } from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { Link } from "react-router-dom";
+import "../AppStyle.css";
+
 
 /**
  * Main page
@@ -14,7 +15,7 @@ export class Index extends Component {
                 <Container>
                     <Row className="justify-content-md-center">
                         <Col md="auto">
-                            <h1>TFGRutas</h1>
+                            <h1 className="pageTitle">TFGRutas</h1>
                         </Col>
                     </Row>  
                 </Container>

@@ -1,11 +1,14 @@
 import { Route } from '../domain/Route';
 import * as fs from 'fs';
 import { XMLParser } from "fast-xml-parser";
+import { IParser } from "./IParser";
 
-export abstract class AbstractParser { 
+export abstract class AbstractParser implements IParser{ 
     
     public fromFileToDomain(filePath: string): Route{
         const file = this.readFile(filePath);
+        console.log(file);
+
         return this.parseFile(file);
     }
 
