@@ -1,14 +1,24 @@
 import { Component, Fragment, ReactElement } from "react";
-import { ParserManager } from "../../back/parsers/ParserManager";
-import { Database } from "../../back/database/Database";
 import { Col, Container, Row } from "react-bootstrap";
 import Dropzone from "react-dropzone";
+import { Route } from "../../back/domain/Route";
+import { Database } from "../../back/database/Database";
+import { ParserManager } from "../../back/parsers/ParserManager";
 import "../AppStyle.css";
+import { Management } from "./components/Management";
+
+interface ImporterProps {}
+
+interface ImporterState {}
 
 /**
  * Importer page
  */
-export class Importer extends Component{ 
+export class Importer extends Component<ImporterProps, ImporterState>{ 
+    public constructor(props: ImporterProps){
+        super(props);
+    }
+    
     private importInputFiles(event: any): any{
         const files = event.target.files;
 
@@ -51,32 +61,33 @@ export class Importer extends Component{
                 <Container>
                     <Row className="justify-content-md-center">
                         <Col md="auto">
-                            <h1 className="pageTitle">Importar archivos</h1>
+                            <h1 className="pageTitle">Importar</h1>
                         </Col>
                     </Row>  
                     <Row className="justify-content-md-center">
                         <Dropzone noClick={true} onDrop={(acceptedFiles) => this.importDropzoneFiles(acceptedFiles)}>
                             {({getRootProps, getInputProps}) => (
-                                <section className="dropzone" style={{cursor: "inherit"}}>
+                                <section className="dropzone" style={{marginTop: "5px"}}>
                                     <div {...getRootProps()}>
                                         <input {...getInputProps()} />
-                                        <p>Arrastrar ficheros</p>
+                                        <p>Arrastrar rutas</p>
                                     </div>
                                 </section>
                             )}
                         </Dropzone>
                     </Row>  
                     <Row className="justify-content-md-center">
-                        <label id="inputLabel" htmlFor="fileSelector" className="btn btn-primary">Seleccionar desde explorador de archivos</label>
+                        <label htmlFor="fileSelector" className="btn btn-primary bckColor">Seleccionar desde explorador de archivos</label>
                         <input 
                             type="file" 
                             id="fileSelector" 
                             multiple={true} 
                             accept=".gpx, .tcx"
                             style={{display: "none"}}
-                            onChange={this.importInputFiles}/>
+                            onChange={this.importInputFiles.bind(this)}/>
                     </Row>  
                 </Container>
+                <Management/>
             </Fragment>
         );
     }

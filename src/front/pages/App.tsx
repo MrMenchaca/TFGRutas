@@ -4,7 +4,6 @@ import { Route, Routes, HashRouter} from "react-router-dom";
 import { Index } from "./Index";
 import { Navigation } from "./components/Navigation";
 import { Importer } from './Importer';
-import { ListRoutes } from './ListRoutes';
 import { SeeRouteRouter } from './SeeRoute';
 import 'bootstrap/dist/css/bootstrap';
 import { AllRoutes } from './AllRoutes';
@@ -23,7 +22,6 @@ export class App extends Component {
                         <Route path="/" element={<Index/>}/>
                         <Route path="/index" element={<Index/>}/>
                         <Route path="/importer" element={<Importer/>}/>
-                        <Route path="/listRoutes" element={<ListRoutes/>}/>
                         <Route path="/allRoutes" element={<AllRoutes/>}/>
                         <Route path="/seeRoute/:id" element={<SeeRouteRouter/>}/>
                     </Routes>
