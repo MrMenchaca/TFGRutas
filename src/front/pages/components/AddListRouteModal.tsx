@@ -22,7 +22,6 @@ export class AddListRouteModal extends Component<AddListRouteModalProps, AddList
     }
 
     public addList(): void {
-        // const listRoute = new ListRoute(name, [new Route("ruta 1", [new Coordinate(1, 2, 3), new Coordinate(100, 202, 3)]), new Route("ruta 2", null), new Route("ruta 3", null)]);
         const listRoute = new ListRoute(this.state.nameField, null);
         Database.saveListRoute(listRoute);
         console.log(document.getElementById("nameField"));

@@ -31,7 +31,12 @@ export class ListManagment extends Component<ListManagmentProps, ListManagmentSt
             elements.push(
                 <Fragment key={listRoute.getId()}>
                     <tr>
-                        <td>{listRoute.getName()}<span className="iconAction deleteIcon"><MdOutlineDelete onClick={(e) => {this.deleteListRoute(listRoute.getId())}}/></span></td>
+                        <td>
+                            {listRoute.getName()}
+                            <span className="iconAction deleteIcon">
+                                <MdOutlineDelete onClick={(e) => {this.deleteListRoute(listRoute.getId())}}/>
+                            </span>
+                        </td>
                     </tr>
                 </Fragment>
             );
@@ -77,7 +82,12 @@ export class ListManagment extends Component<ListManagmentProps, ListManagmentSt
             <Fragment>
                 <Row className="justify-content-md-center">
                     <Col xs={12}>
-                        <h3 className="pageTitle" style={{textAlign: "center"}}>Listas<span className="iconAction"><MdPlaylistAdd onClick={this.showModal.bind(this)}/></span></h3> 
+                        <h3 className="pageTitle" style={{textAlign: "center"}}>
+                            Listas
+                            <span className="iconAction">
+                                <MdPlaylistAdd onClick={this.showModal.bind(this)}/>
+                            </span>
+                        </h3> 
                     </Col>
                 </Row>
                 <Row className="justify-content-md-center">
