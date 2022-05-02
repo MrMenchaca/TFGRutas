@@ -25,9 +25,11 @@ export class AddRouteToListRouteModal extends Component<AddRouteToListRouteModal
     }
 
     public addRouteToListRoute(): void {
-        Database.addRouteToListsRoute(this.state.listRoutesToAdd, this.props.idRouteToAdd);
-        this.closeModal();
-        this.props.refreshFather();
+        Database.getRouteById(this.props.idRouteToAdd).then((data) => {
+            Database.addRouteToListsRoute(this.state.listRoutesToAdd, data);
+            this.closeModal();
+            this.props.refreshFather();
+        }); 
     }
 
     public handleChange(event: any, listRouteId: string): void {

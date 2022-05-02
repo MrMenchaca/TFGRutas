@@ -7,29 +7,29 @@ import { MdOutlineDelete, MdOutlineLibraryAdd } from 'react-icons/md';
 import { BiShow } from 'react-icons/bi';
 import { Link } from "react-router-dom";
 import { AddRouteToListRouteModal } from "./AddRouteToListRouteModal";
+import { DeleteRouteModal } from "./DeleteRouteModal";
 
 
-interface RoutesManagmentProps {}
+interface AllRoutesManagementProps {}
 
-interface RoutesManagmentState {
+interface AllRoutesManagementState {
     routes: Route[];
-    isModalDisplayed: boolean;
-    idRouteToAdd: string
+    isAddModalDisplayed: boolean;
+    idRouteToAdd: string;
+    isDeleteModalDisplayed: boolean;
+    idRouteToDelete: string;
 }
 
-export class RoutesManagment extends Component<RoutesManagmentProps, RoutesManagmentState> {
-    public constructor(props: RoutesManagmentProps){
+export class AllRoutesManagement extends Component<AllRoutesManagementProps, AllRoutesManagementState> {
+    public constructor(props: AllRoutesManagementProps){
         super(props);
         this.state = {
             routes: null,
-            isModalDisplayed: false,
-            idRouteToAdd: ""
+            isAddModalDisplayed: false,
+            idRouteToAdd: "",
+            isDeleteModalDisplayed: false,
+            idRouteToDelete: ""
         }
-    }
-
-    public deleteRoute(id: string): void{
-        Database.deleteRoute(id);
-        this.refreshRoutesListDroppable();
     }
 
     public refreshRoutesListDroppable(): void {
@@ -40,16 +40,29 @@ export class RoutesManagment extends Component<RoutesManagmentProps, RoutesManag
         );
     }
 
-    public showModal(idRoute: string): void {
+    public showAddModal(idRoute: string): void {
         this.setState({
             idRouteToAdd: idRoute,
-            isModalDisplayed: true
+            isAddModalDisplayed: true
         });
     } 
     
-    public hideModal(): void {
+    public hideAddModal(): void {
         this.setState({
-            isModalDisplayed: false
+            isAddModalDisplayed: false
+        });
+    }
+
+    public showDeleteModal(idRoute: string): void {
+        this.setState({
+            idRouteToDelete: idRoute,
+            isDeleteModalDisplayed: true
+        });
+    } 
+    
+    public hideDeleteModal(): void {
+        this.setState({
+            isDeleteModalDisplayed: false
         });
     }
 
@@ -82,7 +95,7 @@ export class RoutesManagment extends Component<RoutesManagmentProps, RoutesManag
                                                 <td>
                                                     { route.getName() } 
                                                     <span className="iconAction deleteIcon">
-                                                        <MdOutlineDelete onClick={(e) => {this.deleteRoute(route.getId())}}/>
+                                                        <MdOutlineDelete onClick={(e) => {this.showDeleteModal(route.getId())}}/>
                                                     </span>
                                                     <span className="iconAction">
                                                         <Link className="showIcon" to={"/seeRoute/" + route.getId()}>
@@ -90,7 +103,7 @@ export class RoutesManagment extends Component<RoutesManagmentProps, RoutesManag
                                                         </Link>
                                                     </span>
                                                     <span className="iconAction">
-                                                        <MdOutlineLibraryAdd onClick={(e) => {this.showModal(route.getId())}}/>
+                                                        <MdOutlineLibraryAdd onClick={(e) => {this.showAddModal(route.getId())}}/>
                                                     </span>
                                                 </td>
                                             </tr>
@@ -101,8 +114,13 @@ export class RoutesManagment extends Component<RoutesManagmentProps, RoutesManag
                         </Table>
                         <AddRouteToListRouteModal 
                             idRouteToAdd={this.state.idRouteToAdd}
-                            isShow={this.state.isModalDisplayed} 
-                            onHide={() => this.hideModal()}
+                            isShow={this.state.isAddModalDisplayed} 
+                            onHide={() => this.hideAddModal()}
+                            refreshFather={() => this.refreshRoutesListDroppable()}/>
+                        <DeleteRouteModal
+                            idRouteToDelete={this.state.idRouteToDelete}
+                            isShow={this.state.isDeleteModalDisplayed}
+                            onHide={() => this.hideDeleteModal()}
                             refreshFather={() => this.refreshRoutesListDroppable()}/>
                     </Row> 
                 </Fragment>

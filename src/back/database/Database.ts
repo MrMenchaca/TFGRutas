@@ -23,6 +23,9 @@ export class Database {
         return this.db;
     }
 
+
+    // ----------------------------------------------- Create --------------------------------------------------
+
     /**
      * Save route in DB
      * 
@@ -73,6 +76,8 @@ export class Database {
         return false;
     }
 
+    // ---------------------------------------------- Delete ---------------------------------------------
+
     /**
      * Delete listRoute in DB that match id passed as param
      * 
@@ -102,6 +107,7 @@ export class Database {
      public static deleteRoute(id: string): boolean {
         const db = this.getInstance();
         
+        //Delete general register
         db.remove({type: this.TYPE_ROUTE, _id: id}, (err, num) => {
             if (err) {
                 console.error(err);
@@ -110,8 +116,27 @@ export class Database {
             return true;
         });
         
+        //Delete registers inside lists
+        db.update({
+            type: this.TYPE_LIST_ROUTE
+        }, {
+            $pull: {
+                routes: {
+                    _id: id
+                }
+            }
+        }, {multi: true}, function(err, num) {
+            if (err) {
+                console.error(err);
+                return false;
+            }
+            return true;
+        });
+
         return false;
     }
+
+    // ------------------------------------------- Read ------------------------------------------------
 
     /**
      * Get all routes saved in DB.
@@ -158,7 +183,7 @@ export class Database {
     }
 
     /**
-     * Get a route by _id. If there are two routes with same name, return first.
+     * Get a route by _id. If there are two routes with same id, return first.
      * 
      * This method is async, so in order to use it, it will be necessary to resolve returned
      * Promise (await or then()).
@@ -202,22 +227,51 @@ export class Database {
     }
 
     /**
+     * Get a ListRoute by _id. If there are two listRoutes with same id, return first.
+     * 
+     * This method is async, so in order to use it, it will be necessary to resolve returned
+     * Promise (await or then()).
+     * 
+     * @param id ListRoute's id
+     * @return Promise<ListRoute>
+     */
+     public static async getListRouteById(id: string): Promise<ListRoute>{
+        const db = this.getInstance();
+        
+        return await new Promise((resolve, reject) => {
+            db.findOne({
+                type: this.TYPE_LIST_ROUTE, 
+                _id: id
+            }, (err: Error, result: any) => {
+                if (err) reject(err);
+                resolve(Database.fromDbToListRoute(result));
+            });
+        });
+    }
+
+    // ------------------------------------------ Update ----------------------------------------------
+
+    /**
      * Add a Route to one or many ListRoutes
      * 
      * @param listRouteIds ListRoute ids
-     * @param routeId Route id
+     * @param route Route id
      * @return boolean True if everything is ok, false otherwise
      */
-    public static addRouteToListsRoute(listRouteIds: string[], routeId: string): boolean{
+    public static addRouteToListsRoute(listRouteIds: string[], route: Route): boolean{
         const db = this.getInstance();
-        
+
         listRouteIds.forEach((listRouteId) => {
             db.update({
                 type: this.TYPE_LIST_ROUTE,
                 _id: listRouteId
             }, {
                 $push: {
-                    routes: routeId
+                    routes: {
+                        _id: route.getId(),
+                        name: route.getName(),
+                        coordinates: route.getCoordinates()
+                    }
                 }
             }, {}, function(err, num) {
                 if (err) {
@@ -225,11 +279,41 @@ export class Database {
                     return false;
                 }
                 return true;
-            });
+            });  
+        });
+
+        return false; 
+    }
+
+    /**
+     * Delete Route from a ListRoute
+     * 
+     * @param idListRoute ListRoute's id
+     * @param idRoute Route's id
+     * @return boolean True if everything is ok, false otherwise
+     */
+     public static deleteRouteFromListRoute(idListRoute: string, idRoute: string): boolean {
+        const db = this.getInstance();
+        
+        //Delete registers inside lists
+        db.update({
+            type: this.TYPE_LIST_ROUTE,
+            _id: idListRoute
+        }, {
+            $pull: {
+                routes: {
+                    _id: idRoute
+                }
+            }
+        }, {}, function(err, num) {
+            if (err) {
+                console.error(err);
+                return false;
+            }
+            return true;
         });
 
         return false;
-        
     }
 
     // --------------------------------------- Parse methods ----------------------------------------------------
@@ -243,7 +327,7 @@ export class Database {
      * @param document Document from database
      * @return Route created
      */
-     public static fromDbToRoute(document: any): Route{
+     public static fromDbToRoute(document: any): Route{        
         const id = document["_id"];
         const name = document["name"];
         const coordinates: Coordinate[] = [];
