@@ -202,26 +202,12 @@ export class Database {
     }
 
     /**
-     * Create a new Route from DB data (document)
+     * Add a Route to one or many ListRoutes
      * 
-     * Whether a route object can be returned directly, I don't know.
-     * If an attribute is added to Route, must parse here too
-     * 
-     * @param document Document from database
-     * @return Route created
+     * @param listRouteIds ListRoute ids
+     * @param routeId Route id
+     * @return boolean True if everything is ok, false otherwise
      */
-    public static fromDbToRoute(document: any): Route{
-        const id = document["_id"];
-        const name = document["name"];
-        const coordinates: Coordinate[] = [];
-        document["coordinates"]?.forEach((coor: any) => {
-            coordinates.push(new Coordinate(Number(coor["lat"]), Number(coor["lng"]), Number(coor["alt"])));
-        });
-
-        const route = new Route(name, coordinates, id);
-        return route;
-    }
-
     public static addRouteToListsRoute(listRouteIds: string[], routeId: string): boolean{
         const db = this.getInstance();
         
@@ -244,6 +230,29 @@ export class Database {
 
         return false;
         
+    }
+
+    // --------------------------------------- Parse methods ----------------------------------------------------
+
+    /**
+     * Create a new Route from DB data (document)
+     * 
+     * Whether a route object can be returned directly, I don't know.
+     * If an attribute is added to Route, must parse here too
+     * 
+     * @param document Document from database
+     * @return Route created
+     */
+     public static fromDbToRoute(document: any): Route{
+        const id = document["_id"];
+        const name = document["name"];
+        const coordinates: Coordinate[] = [];
+        document["coordinates"]?.forEach((coor: any) => {
+            coordinates.push(new Coordinate(Number(coor["lat"]), Number(coor["lng"]), Number(coor["alt"])));
+        });
+
+        const route = new Route(name, coordinates, id);
+        return route;
     }
 
     /**

@@ -57,7 +57,7 @@ export class AllRoutes extends Component<AllRoutesProps, AllRoutesState>{
                                     style={"general-map-size"}/>
                                 </Wrapper>
                 });
-            })
+            });
         }
         else if(value == this.IGN){
             this.setState({
