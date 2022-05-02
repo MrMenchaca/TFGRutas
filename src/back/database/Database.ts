@@ -222,6 +222,30 @@ export class Database {
         return route;
     }
 
+    public static addRouteToListsRoute(listRouteIds: string[], routeId: string): boolean{
+        const db = this.getInstance();
+        
+        listRouteIds.forEach((listRouteId) => {
+            db.update({
+                type: this.TYPE_LIST_ROUTE,
+                _id: listRouteId
+            }, {
+                $push: {
+                    routes: routeId
+                }
+            }, {}, function(err, num) {
+                if (err) {
+                    console.error(err);
+                    return false;
+                }
+                return true;
+            });
+        });
+
+        return false;
+        
+    }
+
     /**
      * Create a new ListRoute from DB data (document)
      * 

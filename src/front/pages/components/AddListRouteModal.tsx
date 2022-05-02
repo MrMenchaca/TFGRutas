@@ -22,7 +22,7 @@ export class AddListRouteModal extends Component<AddListRouteModalProps, AddList
     }
 
     public addList(): void {
-        const listRoute = new ListRoute(this.state.nameField, null);
+        const listRoute = new ListRoute(this.state.nameField, []);
         Database.saveListRoute(listRoute);
         console.log(document.getElementById("nameField"));
         this.props.onHide();

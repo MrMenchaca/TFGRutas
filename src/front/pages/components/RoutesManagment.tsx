@@ -6,32 +6,30 @@ import { Route } from "../../../back/domain/Route";
 import { MdOutlineDelete, MdOutlineLibraryAdd } from 'react-icons/md';
 import { BiShow } from 'react-icons/bi';
 import { Link } from "react-router-dom";
+import { AddRouteToListRouteModal } from "./AddRouteToListRouteModal";
 
 
 interface RoutesManagmentProps {}
 
 interface RoutesManagmentState {
     routes: Route[];
+    isModalDisplayed: boolean;
+    idRouteToAdd: string
 }
 
 export class RoutesManagment extends Component<RoutesManagmentProps, RoutesManagmentState> {
     public constructor(props: RoutesManagmentProps){
         super(props);
         this.state = {
-            routes: null
+            routes: null,
+            isModalDisplayed: false,
+            idRouteToAdd: ""
         }
     }
-    
-    public handleOnDragEnd(result: any): any{
-        if (!result.destination) return;
-        
-        const items = Array.from(this.state.routes);
-        const [reorderedItem] = items.splice(result.source.index, 1);
-        items.splice(result.destination.index, 0, reorderedItem);
 
-        this.setState({
-            routes: items
-        });
+    public deleteRoute(id: string): void{
+        Database.deleteRoute(id);
+        this.refreshRoutesListDroppable();
     }
 
     public refreshRoutesListDroppable(): void {
@@ -42,12 +40,20 @@ export class RoutesManagment extends Component<RoutesManagmentProps, RoutesManag
         );
     }
 
-    public componentDidMount(): void {
-        this.refreshRoutesListDroppable();
+    public showModal(idRoute: string): void {
+        this.setState({
+            idRouteToAdd: idRoute,
+            isModalDisplayed: true
+        });
+    } 
+    
+    public hideModal(): void {
+        this.setState({
+            isModalDisplayed: false
+        });
     }
 
-    public deleteRoute(id: string): void{
-        Database.deleteRoute(id);
+    public componentDidMount(): void {
         this.refreshRoutesListDroppable();
     }
 
@@ -71,26 +77,33 @@ export class RoutesManagment extends Component<RoutesManagmentProps, RoutesManag
                             <tbody>
                                 {this.state.routes.map((route) => {
                                     return (
-                                        <tr>
-                                            <td>
-                                                { route.getName() } 
-                                                <span className="iconAction deleteIcon">
-                                                    <MdOutlineDelete onClick={(e) => {this.deleteRoute(route.getId())}}/>
-                                                </span>
-                                                <span className="iconAction">
-                                                    <Link className="showIcon" to={"/seeRoute/" + route.getId()}>
-                                                        <BiShow/>
-                                                    </Link>
-                                                </span>
-                                                <span className="iconAction">
-                                                    <MdOutlineLibraryAdd />
-                                                </span>
-                                            </td>
-                                        </tr>
+                                        <Fragment key={"fragment-" + route.getId()}>
+                                            <tr>
+                                                <td>
+                                                    { route.getName() } 
+                                                    <span className="iconAction deleteIcon">
+                                                        <MdOutlineDelete onClick={(e) => {this.deleteRoute(route.getId())}}/>
+                                                    </span>
+                                                    <span className="iconAction">
+                                                        <Link className="showIcon" to={"/seeRoute/" + route.getId()}>
+                                                            <BiShow/>
+                                                        </Link>
+                                                    </span>
+                                                    <span className="iconAction">
+                                                        <MdOutlineLibraryAdd onClick={(e) => {this.showModal(route.getId())}}/>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </Fragment>
                                     );
                                 })}
                             </tbody>
                         </Table>
+                        <AddRouteToListRouteModal 
+                            idRouteToAdd={this.state.idRouteToAdd}
+                            isShow={this.state.isModalDisplayed} 
+                            onHide={() => this.hideModal()}
+                            refreshFather={() => this.refreshRoutesListDroppable()}/>
                     </Row> 
                 </Fragment>
             );
