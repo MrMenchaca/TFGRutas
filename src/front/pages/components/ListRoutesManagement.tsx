@@ -69,7 +69,6 @@ export class ListRoutesManagement extends Component<ListRoutesManagementProps, L
             );
         }
         else {
-            console.log(this.state.listRoute.getRoutes());
             return (
                 <Fragment>
                     <Row className="justify-content-md-center">

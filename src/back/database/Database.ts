@@ -1,10 +1,10 @@
 import Nedb from "nedb";
+import path from "path";
 import { Coordinate } from "../domain/Coordinate";
 import { ListRoute } from "../domain/ListRoute";
 import { Route } from "../domain/Route";
 
 export class Database {
-    static readonly DB_FILE_PATH = ".\\database.db";
     
     static readonly TYPE_ROUTE = 0;
     static readonly TYPE_LIST_ROUTE = 1;
@@ -19,7 +19,7 @@ export class Database {
      */
     public static getInstance(){
         if(!this.db) 
-            this.db = new Nedb({filename: this.DB_FILE_PATH, autoload: true});
+            this.db = new Nedb({filename: path.join('.\\', 'database.db'), autoload: true});
         return this.db;
     }
 

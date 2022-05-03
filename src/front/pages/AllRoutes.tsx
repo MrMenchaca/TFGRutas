@@ -9,13 +9,16 @@ import { Coordinate } from "../../back/domain/Coordinate";
 import SidebarMenu from 'react-bootstrap-sidebar-menu';
 import { Route } from "../../back/domain/Route";
 import "../AppStyle.css";
+import { ProSidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
+import 'react-pro-sidebar/dist/css/styles.css';
+import { FaRoute } from 'react-icons/fa';
 
 
 interface AllRoutesProps {}
 
 interface AllRoutesState {
     mapRoutes: Route[];
-    listRoutes: ReactElement[];
+    listRoutes: Route[];
     center: Coordinate;
     zoom: number;
     mapElement: ReactElement;
@@ -33,7 +36,7 @@ export class AllRoutes extends Component<AllRoutesProps, AllRoutesState>{
         super(props);
         this.state = {
             mapRoutes: [],
-            listRoutes: this.parseRoutesToList(),
+            listRoutes: [],
             center: new Coordinate(43.363129, -5.951843, 0),
             zoom: 9,
             mapElement: null,
@@ -103,64 +106,62 @@ export class AllRoutes extends Component<AllRoutesProps, AllRoutesState>{
             this.removeRoute(id);
     }
 
-    public parseRoutesToList(): ReactElement[] {
-        const elements: ReactElement[] = [];
-        Database.getAllRoutes().then(routes => {
-            routes.forEach((route: Route) => {
-                elements.push(
-                    <Fragment key={route.getId()}>
-                        <Form.Check 
-                            type="checkbox"
-                            id={route.getId()} 
-                            defaultChecked={false}
-                            label={route.getName()} 
-                            onChange={(e) => this.modifyMapRoutes(e, route.getId())}/>
-                        {/* <SidebarMenu.Nav.Link onClick={this.hehe}>{route.getName()}</SidebarMenu.Nav.Link><br/> */}
-                    </Fragment>
-                );
-            }, this);
-        })
-        return elements;
-    }
-
     // ------------------------------------- React methods --------------------------------------------------
     public componentDidMount(): void {
+        Database.getAllRoutes().then((data) => {
+            this.setState({
+                listRoutes: data
+            });
+        })
         this.setMap(this.state.actualMap);
     }
 
     public render(): ReactElement {         
-        return (
-            <Fragment>
-                <Row className="justify-content-md-center">
-                    <Col md="auto">
-                        <h1 className="pageTitle">Rutas</h1>
-                    </Col>
-                </Row>
-                <Row className="justify-content-md-center">
-                    <Col>
-                        <SidebarMenu>
-                            <SidebarMenu.Header>
-                                <SidebarMenu.Brand>ESTO ES LA LISTA DE RUTAS</SidebarMenu.Brand>
-                            </SidebarMenu.Header>
-                            <SidebarMenu.Body>
-                                <SidebarMenu.Sub>
-                                    <SidebarMenu.Sub.Toggle>PRUEBA</SidebarMenu.Sub.Toggle>
-                                    <SidebarMenu.Sub.Collapse>
-                                        {this.state.listRoutes}
-                                    </SidebarMenu.Sub.Collapse>
-                                </SidebarMenu.Sub>
-                            </SidebarMenu.Body>
-                        </SidebarMenu>
-                    </Col>
-                    <Col>
-                        <ToggleButtonGroup type="checkbox" value={[this.GOOGLE_MAPS, this.IGN]} onChange={this.setMap.bind(this)}>
-                            <ToggleButton id="tbg-btn-1" value={this.IGN}>GoogleMaps</ToggleButton>
-                            <ToggleButton id="tbg-btn-2" value={this.GOOGLE_MAPS}>IGN</ToggleButton>
-                        </ToggleButtonGroup>
-                        {this.state.mapElement}
-                    </Col>
-                </Row>
-            </Fragment>
-        );
+        //This "if" is needed to wait until routes are loaded to pass them as params
+        if (this.state == null || this.state.listRoutes == [] || this.state.listRoutes == null) {
+            return (
+                <div>Loading...</div>
+            );
+        }
+        else {
+            return (
+                <Fragment>
+                    <Row className="justify-content-md-center">
+                        <Col md="auto">
+                            <h1 className="pageTitle">Rutas</h1>
+                        </Col>
+                    </Row>
+                    <Row className="justify-content-md-center">
+                        <Col xs={4}>
+                            <ProSidebar width={"400px"} breakPoint={"lg"}>
+                                <Menu iconShape="square">
+                                    <SubMenu title="Todas las rutas" icon={<FaRoute />}>
+                                        {this.state.listRoutes.map((route) => {
+                                            return (
+                                                <Fragment key={"fragment-mi-" + route.getId()}>
+                                                    <MenuItem>
+                                                        <Form.Check 
+                                                            id={"chk-" + route.getId()}
+                                                            label={route.getName()}
+                                                            onChange={(e) => this.modifyMapRoutes(e, route.getId())}/>
+                                                    </MenuItem>
+                                                </Fragment>
+                                            );
+                                        })}
+                                    </SubMenu>
+                                </Menu>
+                            </ProSidebar>
+                        </Col>
+                        <Col xs={8}>
+                            <ToggleButtonGroup type="checkbox" value={[this.GOOGLE_MAPS, this.IGN]} onChange={this.setMap.bind(this)}>
+                                <ToggleButton id="tbg-btn-1" value={this.IGN}>GoogleMaps</ToggleButton>
+                                <ToggleButton id="tbg-btn-2" value={this.GOOGLE_MAPS}>IGN</ToggleButton>
+                            </ToggleButtonGroup>
+                            {this.state.mapElement}
+                        </Col>
+                    </Row>
+                </Fragment>
+            );
+        }
     }
 }
