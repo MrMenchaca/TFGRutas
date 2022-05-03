@@ -90,3 +90,6 @@ out/
 
 # Databases
 *.db
+
+# Package
+tfg-rutas-win32-x64/
