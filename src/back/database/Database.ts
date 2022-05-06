@@ -136,6 +136,37 @@ export class Database {
         return false;
     }
 
+    /**
+     * Delete Route from a ListRoute
+     * 
+     * @param idListRoute ListRoute's id
+     * @param idRoute Route's id
+     * @return boolean True if everything is ok, false otherwise
+     */
+     public static deleteRouteFromListRoute(idListRoute: string, idRoute: string): boolean {
+        const db = this.getInstance();
+        
+        //Delete registers inside lists
+        db.update({
+            type: this.TYPE_LIST_ROUTE,
+            _id: idListRoute
+        }, {
+            $pull: {
+                routes: {
+                    _id: idRoute
+                }
+            }
+        }, {}, function(err, num) {
+            if (err) {
+                console.error(err);
+                return false;
+            }
+            return true;
+        });
+
+        return false;
+    }
+
     // ------------------------------------------- Read ------------------------------------------------
 
     /**
@@ -285,36 +316,6 @@ export class Database {
         return false; 
     }
 
-    /**
-     * Delete Route from a ListRoute
-     * 
-     * @param idListRoute ListRoute's id
-     * @param idRoute Route's id
-     * @return boolean True if everything is ok, false otherwise
-     */
-     public static deleteRouteFromListRoute(idListRoute: string, idRoute: string): boolean {
-        const db = this.getInstance();
-        
-        //Delete registers inside lists
-        db.update({
-            type: this.TYPE_LIST_ROUTE,
-            _id: idListRoute
-        }, {
-            $pull: {
-                routes: {
-                    _id: idRoute
-                }
-            }
-        }, {}, function(err, num) {
-            if (err) {
-                console.error(err);
-                return false;
-            }
-            return true;
-        });
-
-        return false;
-    }
 
     // --------------------------------------- Parse methods ----------------------------------------------------
 

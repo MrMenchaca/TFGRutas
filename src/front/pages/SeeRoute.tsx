@@ -104,7 +104,6 @@ export class SeeRoute extends Component<SeeRouteProps, SeeRouteState>{
                     </ToggleButtonGroup>
                     {this.state.map}
                     <Chart data={this.state.routes.at(0).getElevationProfile()}/>
-
                 </Fragment>
             );
         }
