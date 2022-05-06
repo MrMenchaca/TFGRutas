@@ -1,5 +1,5 @@
 import { Component, Fragment, ReactElement } from "react";
-import { Col, Row, Table } from "react-bootstrap";
+import { Col, OverlayTrigger, Row, Table, Tooltip } from "react-bootstrap";
 import { MdPlaylistAdd, MdOutlineDelete, MdEdit } from 'react-icons/md';
 import { Database } from "../../../back/database/Database";
 import { ListRoute } from "../../../back/domain/ListRoute";
@@ -80,12 +80,21 @@ export class ListManagement extends Component<ListManagementProps, ListManagemen
                     <tr>
                         <td>
                             {listRoute.getName()}
-                            <span className="iconAction deleteIcon">
-                                <MdOutlineDelete onClick={(e) => {this.showDeleteModal(listRoute.getId())}}/>
-                            </span>
-                            <span className="iconAction">
-                                <MdEdit onClick={() => this.props.changeList(listRoute.getId())}/>
-                            </span>
+                            <OverlayTrigger
+                                placement={"top"}
+                                overlay={<Tooltip id={`tooltip-${"top"}`}>Eliminar</Tooltip>}>
+                                <span className="iconAction deleteIcon">
+                                    <MdOutlineDelete onClick={(e) => {this.showDeleteModal(listRoute.getId())}}/>
+                                </span>
+                            </OverlayTrigger>
+                            <OverlayTrigger
+                                placement={"top"}
+                                overlay={<Tooltip id={`tooltip-${"top"}`}>Editar</Tooltip>}>
+                                <span className="iconAction">
+                                    <MdEdit onClick={() => this.props.changeList(listRoute.getId())}/>
+                                </span>
+                            </OverlayTrigger>
+
                         </td>
                     </tr>
                 </Fragment>
@@ -105,9 +114,13 @@ export class ListManagement extends Component<ListManagementProps, ListManagemen
                     <Col xs={12}>
                         <h3 className="pageTitle" style={{textAlign: "center"}}>
                             Listas
-                            <span className="iconAction">
-                                <MdPlaylistAdd onClick={this.showAddModal.bind(this)}/>
-                            </span>
+                            <OverlayTrigger
+                                placement={"top"}
+                                overlay={<Tooltip id={`tooltip-${"top"}`}>Crear lista</Tooltip>}>
+                                <span className="iconAction">
+                                    <MdPlaylistAdd onClick={this.showAddModal.bind(this)}/>
+                                </span>
+                            </OverlayTrigger>
                         </h3> 
                     </Col>
                 </Row>

@@ -1,6 +1,6 @@
 import { Component, Fragment, ReactElement } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import { Col, Row, Table } from "react-bootstrap";
+import { Col, OverlayTrigger, Row, Table, Tooltip } from "react-bootstrap";
 import { Database } from "../../../back/database/Database";
 import { Route } from "../../../back/domain/Route";
 import { MdOutlineDelete, MdOutlineLibraryAdd } from 'react-icons/md';
@@ -94,17 +94,29 @@ export class AllRoutesManagement extends Component<AllRoutesManagementProps, All
                                             <tr>
                                                 <td>
                                                     { route.getName() } 
-                                                    <span className="iconAction deleteIcon">
-                                                        <MdOutlineDelete onClick={(e) => {this.showDeleteModal(route.getId())}}/>
-                                                    </span>
-                                                    <span className="iconAction">
-                                                        <Link className="showIcon" to={"/seeRoute/" + route.getId()}>
-                                                            <BiShow/>
-                                                        </Link>
-                                                    </span>
-                                                    <span className="iconAction">
-                                                        <MdOutlineLibraryAdd onClick={(e) => {this.showAddModal(route.getId())}}/>
-                                                    </span>
+                                                    <OverlayTrigger
+                                                        placement={"top"}
+                                                        overlay={<Tooltip id={`tooltip-${"top"}`}>Eliminar</Tooltip>}>
+                                                        <span className="iconAction deleteIcon">
+                                                            <MdOutlineDelete onClick={(e) => {this.showDeleteModal(route.getId())}}/>
+                                                        </span>
+                                                    </OverlayTrigger>
+                                                    <OverlayTrigger
+                                                        placement={"top"}
+                                                        overlay={<Tooltip id={`tooltip-${"top"}`}>Ver</Tooltip>}>
+                                                        <span className="iconAction">
+                                                            <Link className="showIcon" to={"/seeRoute/" + route.getId()}>
+                                                                <BiShow/>
+                                                            </Link>
+                                                        </span>
+                                                    </OverlayTrigger>
+                                                    <OverlayTrigger
+                                                        placement={"top"}
+                                                        overlay={<Tooltip id={`tooltip-${"top"}`}>Añadir a lista</Tooltip>}>
+                                                        <span className="iconAction">
+                                                            <MdOutlineLibraryAdd onClick={(e) => {this.showAddModal(route.getId())}}/>
+                                                        </span>
+                                                    </OverlayTrigger>
                                                 </td>
                                             </tr>
                                         </Fragment>
