@@ -187,7 +187,7 @@ export class AllRoutes extends Component<AllRoutesProps, AllRoutesState>{
                     <Row className="justify-content-md-center">
                         {/* Sidebar */}
                         <Col xs={4}>
-                            <ProSidebar width={"400px"} className={"sideBar"}>
+                            <ProSidebar width={"100%"} className={"sideBar"}>
                                 <Menu iconShape="square">
                                     {/* All routes */}
                                     <SubMenu 
