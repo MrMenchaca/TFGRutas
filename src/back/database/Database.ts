@@ -234,6 +234,36 @@ export class Database {
     }
 
     /**
+     * Get routes by an _id array.
+     * 
+     * This method is async, so in order to use it, it will be necessary to resolve returned
+     * Promise (await or then()).
+     * 
+     * @param ids Route's ids
+     * @return Promise<Route[]>
+     */
+     public static async getRoutesByIds(ids: string[]): Promise<Route[]>{
+        const db = this.getInstance();
+        
+        return await new Promise((resolve, reject) => {
+            db.find({
+                type: this.TYPE_ROUTE, 
+                _id: {
+                    $in : ids
+                }
+            }, (err: Error, result: any) => {
+                if (err) reject(err);
+                const routes: Route[] = [];
+                // console.log(result);
+                result.forEach(function(document: any){
+                    routes.push(Database.fromDbToRoute(document));
+                });
+                resolve(routes);
+            });
+        });
+    }
+
+    /**
      * Get all ListRoutes saved in DB.
      * 
      * This method is async, so in order to use it, it will be necessary to resolve returned

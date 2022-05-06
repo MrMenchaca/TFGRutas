@@ -12,13 +12,15 @@ import "../AppStyle.css";
 import { ProSidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import 'react-pro-sidebar/dist/css/styles.css';
 import { FaRoute } from 'react-icons/fa';
+import { ListRoute } from "../../back/domain/ListRoute";
 
 
 interface AllRoutesProps {}
 
 interface AllRoutesState {
     mapRoutes: Route[];
-    listRoutes: Route[];
+    allRoutes: Route[];
+    listsRoutes: ListRoute[];
     center: Coordinate;
     zoom: number;
     mapElement: ReactElement;
@@ -36,7 +38,8 @@ export class AllRoutes extends Component<AllRoutesProps, AllRoutesState>{
         super(props);
         this.state = {
             mapRoutes: [],
-            listRoutes: [],
+            allRoutes: [],
+            listsRoutes: [],
             center: new Coordinate(43.363129, -5.951843, 0),
             zoom: 9,
             mapElement: null,
@@ -44,7 +47,7 @@ export class AllRoutes extends Component<AllRoutesProps, AllRoutesState>{
         } 
     }
 
-    public setMap(value: any): any {
+    public setMap(value: any): void {
         if(value == this.GOOGLE_MAPS){
             this.setState({
                 actualMap: this.GOOGLE_MAPS,
@@ -79,46 +82,96 @@ export class AllRoutes extends Component<AllRoutesProps, AllRoutesState>{
         }
     }
 
-    public addRoute(id: string): void{
-        Database.getRouteById(id).then(data => {
-                this.state.mapRoutes.push(data);
+    public addRoutes(ids: string[]): void{
+        Database.getRoutesByIds(ids).then(routes => {
+                //Add routes that don't exist in mapRoutes
+                routes.forEach((newRoute) => {
+                    if (!this.state.mapRoutes.some(existRoute => existRoute.getId() === newRoute.getId())) 
+                        this.state.mapRoutes.push(newRoute);
+                })
+                
+                //Update state
                 this.setState({
                     mapRoutes: this.state.mapRoutes
                 }, () => {
                     this.setMap(this.state.actualMap);
+                    this.updateCheckBoxes(true, ids);
                 });
             }
         );
     }
 
-    public removeRoute(id: string): void{
+    public removeRoutes(ids: string[]): void{
+        //Remove routes
+        let aux = this.state.mapRoutes;
+        ids.forEach((id => {
+            aux = aux.filter(route => { return route.getId() !== id; });
+        }))
+        
+        //Update state
         this.setState({
-            mapRoutes: this.state.mapRoutes.filter(route => { return route.getId() !== id; })
+            mapRoutes: aux
         }, () => {
             this.setMap(this.state.actualMap);
+            this.updateCheckBoxes(false, ids);
         });
     }
 
-    public modifyMapRoutes(event: any, id: string): any{
+    public modifyMapRoutes(event: any, ids: string[]): void{
         if(event.target.checked == true)
-            this.addRoute(id);
+            this.addRoutes(ids);
         else
-            this.removeRoute(id);
+            this.removeRoutes(ids);
+    }
+
+    public updateCheckBoxes(event: boolean, ids: string[]): void {
+        ids.forEach((id) => {
+            //Set true/false same routes
+            const checkBoxes = document.querySelectorAll('[id*="' + id + '"]') as NodeListOf<HTMLInputElement>;
+            checkBoxes.forEach((chk) => {
+                chk.checked = event;
+            });
+            
+            //Set false list when, al least, one checkbox of the list is false
+            if(event == false){
+                checkBoxes.forEach((chk) => {
+                    const listCheckBox = document.getElementById("chk-" + chk.id.split("-")[1]) as HTMLInputElement;
+                    listCheckBox.checked = false;
+                });
+            }
+
+            //Set true list when all checkboxes of the list are true
+            if(event == true){
+                checkBoxes.forEach((chk) => {
+                    const listRoutesCheckBoxes = document.querySelectorAll('[id*="chk-' + chk.id.split("-")[1] + '-"]') as NodeListOf<HTMLInputElement>;
+                    if(!Array.prototype.slice.call(listRoutesCheckBoxes).some((chk: any) => !chk.checked)){
+                        const listCheckBox = document.getElementById("chk-" + chk.id.split("-")[1]) as HTMLInputElement;
+                        listCheckBox.checked = true;
+                    }
+                });
+            }
+        });
     }
 
     // ------------------------------------- React methods --------------------------------------------------
+    
     public componentDidMount(): void {
         Database.getAllRoutes().then((data) => {
             this.setState({
-                listRoutes: data
+                allRoutes: data
             });
-        })
+        });
+        Database.getAllListRoutes().then((data) => {
+            this.setState({
+                listsRoutes: data
+            });
+        });
         this.setMap(this.state.actualMap);
     }
 
     public render(): ReactElement {         
         //This "if" is needed to wait until routes are loaded to pass them as params
-        if (this.state == null || this.state.listRoutes == [] || this.state.listRoutes == null) {
+        if (this.state == null || this.state.allRoutes == [] || this.state.allRoutes == null) {
             return (
                 <div>Loading...</div>
             );
@@ -132,23 +185,59 @@ export class AllRoutes extends Component<AllRoutesProps, AllRoutesState>{
                         </Col>
                     </Row>
                     <Row className="justify-content-md-center">
+                        {/* Sidebar */}
                         <Col xs={4}>
-                            <ProSidebar width={"400px"} breakPoint={"lg"}>
+                            <ProSidebar width={"400px"} className={"sideBar"}>
                                 <Menu iconShape="square">
-                                    <SubMenu title="Todas las rutas" icon={<FaRoute />}>
-                                        {this.state.listRoutes.map((route) => {
+                                    {/* All routes */}
+                                    <SubMenu 
+                                        title="Todas las rutas" 
+                                        prefix={<Form.Check 
+                                            id={"chk-all"}
+                                            aria-label="option 1"
+                                            onChange={(e) => this.modifyMapRoutes(e, this.state.allRoutes.map((route) => {return (route.getId());}))}/>}>
+
+                                        {/* Loop to display all routes */}
+                                        {this.state.allRoutes.map((route) => {
                                             return (
-                                                <Fragment key={"fragment-mi-" + route.getId()}>
-                                                    <MenuItem>
-                                                        <Form.Check 
-                                                            id={"chk-" + route.getId()}
-                                                            label={route.getName()}
-                                                            onChange={(e) => this.modifyMapRoutes(e, route.getId())}/>
-                                                    </MenuItem>
+                                                <Fragment key={"fragment-all-" + route.getId()}>
+                                                    <Form.Check 
+                                                        id={"chk-all-" + route.getId()}
+                                                        label={route.getName()}
+                                                        className={"menuItem"}
+                                                        onChange={(e) => this.modifyMapRoutes(e, [route.getId()])}/>
                                                 </Fragment>
                                             );
                                         })}
                                     </SubMenu>
+
+                                    {/* Loop to display lists */}
+                                    {this.state.listsRoutes.map((list) => {
+                                            return (
+                                                <Fragment key={"fragment-" + list.getId()}>
+                                                    <SubMenu 
+                                                        title={list.getName()} 
+                                                        prefix={<Form.Check
+                                                            id={"chk-" + list.getId()}
+                                                            aria-label="option 1"
+                                                            onChange={(e) => this.modifyMapRoutes(e, list.getRoutes().map((route) => {return (route.getId());}))}/>}>
+
+                                                    {/* Loop to display list routes */}
+                                                    {list.getRoutes().map((route) => {
+                                                        return (
+                                                            <Fragment key={"fragment-" + list.getId() + "-" + route.getId()}>
+                                                                <Form.Check 
+                                                                    id={"chk-" + list.getId() + "-" + route.getId()}
+                                                                    label={route.getName()}
+                                                                    className={"menuItem"}
+                                                                    onChange={(e) => this.modifyMapRoutes(e, [route.getId()])}/>
+                                                            </Fragment>
+                                                        );
+                                                    })}
+                                                    </SubMenu>
+                                                </Fragment>
+                                            );
+                                        })}
                                 </Menu>
                             </ProSidebar>
                         </Col>

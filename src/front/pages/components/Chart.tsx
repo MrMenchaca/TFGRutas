@@ -2,9 +2,12 @@ import { Component, ReactElement } from "react"
 import * as d3 from "d3"
 import './../../AppStyle.css';
 
+const widthWithOutMargins = 1200;
+const heightWithOutMargins = 155;
+
 const margin = { top: 0, right: 0, bottom: 15, left: 40 }
-const width = 815 - margin.left - margin.right
-const height = 155 - margin.top - margin.bottom
+const width = widthWithOutMargins - margin.left - margin.right
+const height = heightWithOutMargins - margin.top - margin.bottom
 
 interface ChartProps {
     data: [number, number][]
@@ -32,11 +35,12 @@ export default class Chart extends Component<ChartProps, ChartState> {
       
         const svg = d3
             .select("#elevationChart")
+            .append("div")
+            .classed("svg-container", true) 
             .append("svg")
-            .attr("width", 815)
-            .attr("height", 155)
+            .attr("preserveAspectRatio", "xMinYMin meet")
             .attr("viewBox", "0 0 " + width + " " + 160)
-            .attr("preserveAspectRatio", "xMinYMid")
+            .classed("svg-content-responsive", true)
             .append("g")
             .attr("transform", `translate(${margin.left}, 2.5)`);
         
