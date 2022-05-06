@@ -57,7 +57,7 @@ body {
     display: inline-block;
     position: relative;
     width: 100%;
-    padding-bottom: 100%; /* aspect ratio */
+    padding-bottom: 15%; /* aspect ratio */
     vertical-align: top;
     overflow: hidden;
   }
@@ -66,11 +66,4 @@ body {
     position: absolute;
     top: 10px;
     left: 0;
-  }
-  
-  svg .rect {
-    fill: gold;
-    stroke: steelblue;
-    stroke-width: 5px;
-    display: none;
   }
