@@ -83,6 +83,7 @@
     "@typescript-eslint/eslint-plugin": "^4.0.1",
     "@typescript-eslint/parser": "^4.0.1",
     "@vercel/webpack-asset-relocator-loader": "1.7.0",
+    "copy-webpack-plugin": "^10.2.4",
     "csp-html-webpack-plugin": "^5.1.0",
     "css-loader": "^6.0.0",
     "dotenv-webpack": "^7.1.0",
@@ -129,6 +130,7 @@
     "react-leaflet": "^3.2.2",
     "react-native-svg-charts": "^5.4.0",
     "react-pro-sidebar": "^0.7.1",
-    "react-router-dom": "^6.2.1"
+    "react-router-dom": "^6.2.1",
+    "upath": "^2.0.1"
   }
 }
