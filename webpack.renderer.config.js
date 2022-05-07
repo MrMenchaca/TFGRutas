@@ -13,11 +13,17 @@ module.exports = {
     rules,
   },
   target: 'electron-renderer',
+  node: {
+      __dirname: false, //set false to prevent webpack mock
+  },
   plugins: plugins,
   resolve: {
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.css']
   },
   externals: {
     nedb: 'commonjs nedb',
+  },
+  output: {
+    publicPath: '/',
   },
 };
