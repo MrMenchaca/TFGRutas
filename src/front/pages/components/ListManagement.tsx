@@ -42,10 +42,6 @@ export class ListManagement extends Component<ListManagementProps, ListManagemen
         );
     }
 
-    public handleOnDragEnd(result: any): any{
-        console.log("prueba");
-    }
-
     public showAddModal(): void {
         this.setState({
             isAddModalDisplayed: true

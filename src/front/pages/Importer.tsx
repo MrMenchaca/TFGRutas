@@ -48,8 +48,6 @@ export class Importer extends Component<ImporterProps, ImporterState>{
     }
     
     private importDropzoneFiles(files: any): any{
-        console.log(files);
-
         files.forEach((file: File) => {
             //Obtenemos el parser correspondiente a la extensión del fichero
             const parserManager = new ParserManager();
