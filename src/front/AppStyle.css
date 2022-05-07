@@ -61,9 +61,21 @@ body {
     vertical-align: top;
     overflow: hidden;
   }
-  .svg-content-responsive {
+
+.svg-content-responsive {
     display: inline-block;
     position: absolute;
     top: 10px;
     left: 0;
-  }
+}
+
+a.linkCard{
+    color: #212529;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+.cardPosition{
+    margin-top: 12vh;
+    width: 30rem;
+}
