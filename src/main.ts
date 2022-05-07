@@ -14,9 +14,10 @@ const createWindow = (): void => {
     const mainWindow = new BrowserWindow({
         title: "TFGRutas",
         webPreferences: {
-        nodeIntegration: true,
-        contextIsolation: false,
-        }
+            nodeIntegration: true,
+            contextIsolation: false
+        },
+        autoHideMenuBar: true
     });
     
     //Maximize window
