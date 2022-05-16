@@ -17,7 +17,8 @@ const createWindow = (): void => {
             nodeIntegration: true,
             contextIsolation: false
         },
-        autoHideMenuBar: true
+        autoHideMenuBar: true,
+        icon: "./images/windowIcon.png"
     });
     
     //Maximize window

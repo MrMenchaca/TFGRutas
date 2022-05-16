@@ -1,5 +1,4 @@
 import { Component, Fragment, ReactElement } from "react";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { Col, OverlayTrigger, Row, Table, Tooltip } from "react-bootstrap";
 import { Database } from "../../../back/database/Database";
 import { Route } from "../../../back/domain/Route";

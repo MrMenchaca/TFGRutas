@@ -4,7 +4,7 @@ import { Database } from "../../back/database/Database";
 import { useParams } from "react-router-dom";
 import { GoogleMapsMap } from "./components/GoogleMapsMap";
 import { Status, Wrapper } from "@googlemaps/react-wrapper";
-import { Spinner, ToggleButton, ToggleButtonGroup } from "react-bootstrap";
+import { Card, Col, Container, Row, Spinner, ToggleButton, ToggleButtonGroup } from "react-bootstrap";
 import { IGNMap } from "./components/IGNMap";
 import { Coordinate } from "../../back/domain/Coordinate";
 import * as d3 from "d3";
@@ -37,26 +37,6 @@ export class SeeRoute extends Component<SeeRouteProps, SeeRouteState>{
         };
     }
 
-    public componentDidMount(): void {
-        Database.getRouteById(this.props.id).then(data =>
-            this.setState({
-                routes: [data],
-                center: data.getCenter(),
-                zoom: 13,
-            }, () => {
-                this.setState({
-                    map: <Wrapper apiKey={"AIzaSyDBsrGdH36Y11o4Vx55Ew-0lN_LmL-5G6s"} render={this.renderMap}>
-                            <GoogleMapsMap 
-                            center={this.state.center} 
-                            zoom={this.state.zoom} 
-                            routes={this.state.routes}
-                            style={"single-map-size"}/>
-                        </Wrapper>
-                })
-            })
-        );
-    }
-
     public handleChange(value: any): any {
         if(value=="googleMaps"){
             this.setState({
@@ -64,6 +44,7 @@ export class SeeRoute extends Component<SeeRouteProps, SeeRouteState>{
                         <GoogleMapsMap 
                         center={this.state.center} 
                         zoom={this.state.zoom} 
+                        changeMap={this.handleChange.bind(this)}
                         routes={this.state.routes}
                         style={"single-map-size"}/>
                     </Wrapper>
@@ -74,6 +55,7 @@ export class SeeRoute extends Component<SeeRouteProps, SeeRouteState>{
                 map: <IGNMap 
                 center={this.state.center} 
                 zoom={this.state.zoom} 
+                changeMap={this.handleChange.bind(this)}
                 routes={this.state.routes}
                 style={"single-map-size"}/>
             });
@@ -87,6 +69,27 @@ export class SeeRoute extends Component<SeeRouteProps, SeeRouteState>{
         return <Spinner animation="border"/>;
     }
 
+    public componentDidMount(): void {
+        Database.getRouteById(this.props.id).then(data =>
+            this.setState({
+                routes: [data],
+                center: data.getCenter(),
+                zoom: 13,
+            }, () => {
+                this.setState({
+                    map: <Wrapper apiKey={"AIzaSyDBsrGdH36Y11o4Vx55Ew-0lN_LmL-5G6s"} render={this.renderMap}>
+                            <GoogleMapsMap 
+                            center={this.state.center} 
+                            zoom={this.state.zoom} 
+                            changeMap={this.handleChange.bind(this)}
+                            routes={this.state.routes}
+                            style={"single-map-size"}/>
+                        </Wrapper>
+                })
+            })
+        );
+    }
+
     public render(): ReactElement {         
         //This "if" is needed to wait until routes are loaded to pass them as params
         if (this.state == null || this.state.routes == null) {
@@ -97,13 +100,51 @@ export class SeeRoute extends Component<SeeRouteProps, SeeRouteState>{
         else {
             return (
                 <Fragment>
-                    <h1 className="pageTitle">Ruta {this.state.routes.at(0).getName()}</h1>
-                    <ToggleButtonGroup type="checkbox" value={["googleMaps", "ign"]} onChange={this.handleChange.bind(this)}>
-                        <ToggleButton id="tbg-btn-1" value={"ign"}>GoogleMaps</ToggleButton>
-                        <ToggleButton id="tbg-btn-2" value={"googleMaps"}>IGN</ToggleButton>
-                    </ToggleButtonGroup>
-                    {this.state.map}
-                    <Chart data={this.state.routes.at(0).getElevationProfile()}/>
+                    <Container>
+                        <Row className="justify-content-md-center">
+                            <Col md="auto">
+                                <h1 className="pageTitle">{this.state.routes.at(0).getName()}</h1>
+                            </Col>
+                        </Row>
+                        <Row className="routeData">
+                            <Card className="cardRouteData">
+                                <Card.Body>
+                                    <Card.Title>Distancia</Card.Title>
+                                    <Card.Text>{this.state.routes.at(0).getDistanceFormatted()}</Card.Text>
+                                </Card.Body>
+                            </Card>
+                            <Card className="cardRouteData">
+                                <Card.Body>
+                                    <Card.Title>Tiempo total</Card.Title>
+                                    <Card.Text>{this.state.routes.at(0).getTotalTimeFormatted()}</Card.Text>
+                                </Card.Body>
+                            </Card>
+                            <Card className="cardRouteData">
+                                <Card.Body>
+                                    <Card.Title>Ascenso</Card.Title>
+                                    <Card.Text>{this.state.routes.at(0).getAscentFormatted()}</Card.Text>
+                                </Card.Body>
+                            </Card>
+                            <Card className="cardRouteData">
+                                <Card.Body>
+                                    <Card.Title>Descenso</Card.Title>
+                                    <Card.Text>{this.state.routes.at(0).getDescentFormatted()}</Card.Text>
+                                </Card.Body>
+                            </Card>
+                            <Card className="cardRouteData">
+                                <Card.Body>
+                                    <Card.Title>Ritmo medio</Card.Title>
+                                    <Card.Text>{this.state.routes.at(0).getAveragePaceFormatted()}</Card.Text>
+                                </Card.Body>
+                            </Card>
+                        </Row>
+                        <Row className="justify-content-md-center">
+                            <div style={{"position": "relative"}}>
+                                {this.state.map}
+                            </div>
+                            <Chart data={this.state.routes.at(0).getElevationProfile()}/>
+                        </Row>
+                    </Container>
                 </Fragment>
             );
         }

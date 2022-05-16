@@ -1,7 +1,6 @@
 import { Component, Fragment, ReactElement } from 'react';
 import * as ReactDOM from "react-dom";
 import { Route, Routes, HashRouter} from "react-router-dom";
-import { Index } from "./Index";
 import { Navigation } from "./components/Navigation";
 import { Importer } from './Importer';
 import { SeeRouteRouter } from './SeeRoute';
@@ -19,8 +18,7 @@ export class App extends Component {
                 <HashRouter>   
                     <Navigation/>     
                     <Routes>
-                        <Route path="/" element={<Index/>}/>
-                        <Route path="/index" element={<Index/>}/>
+                        <Route path="/" element={<AllRoutes/>}/>
                         <Route path="/importer" element={<Importer/>}/>
                         <Route path="/allRoutes" element={<AllRoutes/>}/>
                         <Route path="/seeRoute/:id" element={<SeeRouteRouter/>}/>

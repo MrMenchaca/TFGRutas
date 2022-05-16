@@ -9,7 +9,6 @@ export class Database {
     static readonly TYPE_ROUTE = 0;
     static readonly TYPE_LIST_ROUTE = 1;
 
-
     private static db: Nedb;
 
     /**
@@ -38,7 +37,13 @@ export class Database {
         db.insert({
             type: this.TYPE_ROUTE,
             name: route.getName(), 
-            coordinates: route.getCoordinates() 
+            coordinates: route.getCoordinates(),
+            distance: route.getDistance(),
+            totalTime: route.getTotalTime(),
+            ascent: route.getAscent(),
+            descent: route.getDescent(),
+            averagePace: route.getAveragePace()
+
         }, function(err, record) {
             if (err) {
                 console.error(err);
@@ -361,12 +366,17 @@ export class Database {
      public static fromDbToRoute(document: any): Route{        
         const id = document["_id"];
         const name = document["name"];
+        const distance = document["distance"];
+        const totalTime = document["totalTime"];
+        const ascent = document["ascent"];
+        const descent = document["descent"];
+        const averagePace = document["averagePace"];
         const coordinates: Coordinate[] = [];
         document["coordinates"]?.forEach((coor: any) => {
-            coordinates.push(new Coordinate(Number(coor["lat"]), Number(coor["lng"]), Number(coor["alt"])));
+            coordinates.push(new Coordinate(Number(coor["lat"]), Number(coor["lng"]), Number(coor["alt"]), new Date(coor["time"])));
         });
 
-        const route = new Route(name, coordinates, id);
+        const route = new Route(name, coordinates, id, Number(distance), Number(totalTime), Number(ascent), Number(descent), Number(averagePace));
         return route;
     }
 
@@ -386,9 +396,9 @@ export class Database {
         document["routes"]?.forEach((route: any) => {
             const coordinates: Coordinate[] = [];
             route["coordinates"]?.forEach((coor: any) => {
-                coordinates.push(new Coordinate(Number(coor["lat"]), Number(coor["lng"]), Number(coor["alt"])));
+                coordinates.push(new Coordinate(Number(coor["lat"]), Number(coor["lng"]), Number(coor["alt"]), new Date(coor["time"])));
             });
-            routes.push(new Route(route["name"], coordinates, route["_id"]));
+            routes.push(new Route(route["name"], coordinates, route["_id"], Number(route["distance"]), Number(route["totalTime"]), Number(route["ascent"]), Number(route["descent"]), Number(route["averagePace"])));
         });
 
         const listRoute = new ListRoute(name, routes, id);

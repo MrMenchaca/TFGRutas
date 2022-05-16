@@ -3,16 +3,16 @@ import { Component, Fragment, ReactElement } from "react";
 import { Database } from "../../back/database/Database";
 import { GoogleMapsMap } from "./components/GoogleMapsMap";
 import { Wrapper } from "@googlemaps/react-wrapper";
-import { Col, Container, Form, Row, ToggleButton, ToggleButtonGroup } from "react-bootstrap";
+import { Col, Container, Form, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { IGNMap } from "./components/IGNMap";
 import { Coordinate } from "../../back/domain/Coordinate";
-import SidebarMenu from 'react-bootstrap-sidebar-menu';
 import { Route } from "../../back/domain/Route";
 import "../AppStyle.css";
-import { ProSidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
+import { ProSidebar, Menu, SubMenu } from 'react-pro-sidebar';
 import 'react-pro-sidebar/dist/css/styles.css';
-import { FaRoute } from 'react-icons/fa';
 import { ListRoute } from "../../back/domain/ListRoute";
+import { Link } from "react-router-dom";
+import { BiShow } from 'react-icons/bi';
 
 
 interface AllRoutesProps {}
@@ -31,8 +31,8 @@ interface AllRoutesState {
  * SeeRoute page
  */
 export class AllRoutes extends Component<AllRoutesProps, AllRoutesState>{                
-    readonly GOOGLE_MAPS = "googleMaps";
-    readonly IGN = "ign";
+    static readonly GOOGLE_MAPS = "googleMaps";
+    static readonly IGN = "ign";
     
     public constructor(props: AllRoutesProps) {
         super(props);
@@ -40,41 +40,43 @@ export class AllRoutes extends Component<AllRoutesProps, AllRoutesState>{
             mapRoutes: [],
             allRoutes: [],
             listsRoutes: [],
-            center: new Coordinate(43.363129, -5.951843, 0),
+            center: new Coordinate(43.363129, -5.951843),
             zoom: 9,
             mapElement: null,
-            actualMap: this.GOOGLE_MAPS
+            actualMap: AllRoutes.GOOGLE_MAPS
         } 
     }
 
     public setMap(value: any): void {
-        if(value == this.GOOGLE_MAPS){
+        if(value == AllRoutes.GOOGLE_MAPS){
             this.setState({
-                actualMap: this.GOOGLE_MAPS,
+                actualMap: AllRoutes.GOOGLE_MAPS,
                 mapElement: null
             }, () => {
                 this.setState({
-                    actualMap: this.GOOGLE_MAPS,
+                    actualMap: AllRoutes.GOOGLE_MAPS,
                     mapElement: <Wrapper apiKey={"AIzaSyDBsrGdH36Y11o4Vx55Ew-0lN_LmL-5G6s"} >
                                     <GoogleMapsMap 
                                     center={this.state.center} 
                                     zoom={this.state.zoom} 
+                                    changeMap={this.setMap.bind(this)}
                                     routes={this.state.mapRoutes}
                                     style={"general-map-size"}/>
                                 </Wrapper>
                 });
             });
         }
-        else if(value == this.IGN){
+        else if(value == AllRoutes.IGN){
             this.setState({
-                actualMap: this.IGN,
+                actualMap: AllRoutes.IGN,
                 mapElement: null
             }, () => {
                 this.setState({
-                    actualMap: this.IGN,
+                    actualMap: AllRoutes.IGN,
                     mapElement: <IGNMap 
                     center={this.state.center} 
                     zoom={this.state.zoom} 
+                    changeMap={this.setMap.bind(this)}
                     routes={this.state.mapRoutes}
                     style={"general-map-size"}/>
                 });
@@ -179,12 +181,7 @@ export class AllRoutes extends Component<AllRoutesProps, AllRoutesState>{
         else {
             return (
                 <Fragment>
-                    <Container>
-                        <Row className="justify-content-md-center">
-                            <Col md="auto">
-                                <h1 className="pageTitle">Mapa</h1>
-                            </Col>
-                        </Row>
+                    <Container style={{"marginTop": "8vh"}}>
                         <Row className="justify-content-md-center">
                             {/* Sidebar */}
                             <Col xs={4}>
@@ -202,11 +199,26 @@ export class AllRoutes extends Component<AllRoutesProps, AllRoutesState>{
                                             {this.state.allRoutes.map((route) => {
                                                 return (
                                                     <Fragment key={"fragment-all-" + route.getId()}>
-                                                        <Form.Check 
-                                                            id={"chk-all-" + route.getId()}
-                                                            label={route.getName()}
-                                                            className={"menuItem"}
-                                                            onChange={(e) => this.modifyMapRoutes(e, [route.getId()])}/>
+                                                        <Row>
+                                                            <Col xs={10}>
+                                                                <Form.Check 
+                                                                    id={"chk-all-" + route.getId()}
+                                                                    label={route.getName()}
+                                                                    className={"menuItem"}
+                                                                    onChange={(e) => this.modifyMapRoutes(e, [route.getId()])}/>
+                                                            </Col>
+                                                            <Col>
+                                                                <OverlayTrigger
+                                                                    placement={"top"}
+                                                                    overlay={<Tooltip id={`tooltip-${"top"}`}>Ver</Tooltip>}>
+                                                                    <span>
+                                                                        <Link className="showIcon" to={"/seeRoute/" + route.getId()}>
+                                                                            <BiShow/>
+                                                                        </Link>
+                                                                    </span>
+                                                                </OverlayTrigger>
+                                                            </Col>
+                                                        </Row>
                                                     </Fragment>
                                                 );
                                             })}
@@ -227,11 +239,27 @@ export class AllRoutes extends Component<AllRoutesProps, AllRoutesState>{
                                                         {list.getRoutes().map((route) => {
                                                             return (
                                                                 <Fragment key={"fragment-" + list.getId() + "-" + route.getId()}>
-                                                                    <Form.Check 
-                                                                        id={"chk-" + list.getId() + "-" + route.getId()}
-                                                                        label={route.getName()}
-                                                                        className={"menuItem"}
-                                                                        onChange={(e) => this.modifyMapRoutes(e, [route.getId()])}/>
+                                                                    <Row>
+                                                                        <Col xs={10}>
+                                                                            <Form.Check 
+                                                                                id={"chk-" + list.getId() + "-" + route.getId()}
+                                                                                label={route.getName()}
+                                                                                className={"menuItem"}
+                                                                                onChange={(e) => this.modifyMapRoutes(e, [route.getId()])}/>
+                                                                            
+                                                                        </Col>
+                                                                        <Col>
+                                                                            <OverlayTrigger
+                                                                                placement={"top"}
+                                                                                overlay={<Tooltip id={`tooltip-${"top"}`}>Ver</Tooltip>}>
+                                                                                <span>
+                                                                                    <Link className="showIcon" to={"/seeRoute/" + route.getId()}>
+                                                                                        <BiShow/>
+                                                                                    </Link>
+                                                                                </span>
+                                                                            </OverlayTrigger>
+                                                                        </Col>
+                                                                    </Row>
                                                                 </Fragment>
                                                             );
                                                         })}
@@ -242,11 +270,7 @@ export class AllRoutes extends Component<AllRoutesProps, AllRoutesState>{
                                     </Menu>
                                 </ProSidebar>
                             </Col>
-                            <Col xs={8}>
-                                <ToggleButtonGroup type="checkbox" value={[this.GOOGLE_MAPS, this.IGN]} onChange={this.setMap.bind(this)}>
-                                    <ToggleButton id="tbg-btn-1" value={this.IGN}>GoogleMaps</ToggleButton>
-                                    <ToggleButton id="tbg-btn-2" value={this.GOOGLE_MAPS}>IGN</ToggleButton>
-                                </ToggleButtonGroup>
+                            <Col xs={8} style={{"position": "relative"}}>
                                 {this.state.mapElement}
                             </Col>
                         </Row>

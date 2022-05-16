@@ -70,6 +70,22 @@ export class ListManagement extends Component<ListManagementProps, ListManagemen
     public async parseListRoutesToList(): Promise<ReactElement[]> {
         const listRoutes = await Database.getAllListRoutes()
         const elements: ReactElement[] = [];
+        elements.push(
+            <Fragment key="allRoutes">
+                <tr>
+                    <td>
+                        Todas las rutas
+                        <OverlayTrigger
+                            placement={"top"}
+                            overlay={<Tooltip id={`tooltip-${"top"}`}>Editar</Tooltip>}>
+                            <span className="iconAction">
+                                <MdEdit onClick={() => this.props.changeList(null)}/>
+                            </span>
+                        </OverlayTrigger>
+                    </td>
+                </tr>
+            </Fragment>
+        );
         listRoutes.forEach((listRoute: ListRoute) => {
             elements.push(
                 <Fragment key={listRoute.getId()}>
@@ -90,7 +106,6 @@ export class ListManagement extends Component<ListManagementProps, ListManagemen
                                     <MdEdit onClick={() => this.props.changeList(listRoute.getId())}/>
                                 </span>
                             </OverlayTrigger>
-
                         </td>
                     </tr>
                 </Fragment>

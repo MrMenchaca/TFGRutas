@@ -18,6 +18,21 @@ body {
     width: 100%;
 }
 
+.ignMapButtonLocation {
+    position: absolute;
+    top: 11px;
+    left: 200px;
+    
+}
+
+.googleMapsMapButtonLocation {
+    position: absolute;
+    top: 13px;
+    left: 55px;
+    background-color: rgba(0,60,136,0.5) !important;
+    color: white !important;
+}
+
 .chart {
     display: "flex";
     justify-content: "center";
@@ -48,6 +63,10 @@ body {
     color: rgb(93, 93, 244);
 }
 
+.showIcon::before {
+    content: none !important;
+}
+
 .sideBar .menuItem {
     margin-bottom: 5px;
 }
@@ -68,13 +87,18 @@ body {
     left: 0;
 }
 
-a.linkCard{
+a.linkCard {
     color: #212529;
     font-size: 16px;
     text-decoration: none;
 }
 
-.cardPosition{
+.cardPosition {
     margin-top: 12vh;
     width: 30rem;
+}
+
+.row.routeData .cardRouteData {
+    width: 12rem;
+    margin: 10px 0 15px 30px;
 }

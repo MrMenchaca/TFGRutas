@@ -74,13 +74,6 @@ export class ListRoutesManagement extends Component<ListRoutesManagementProps, L
                     <Row className="justify-content-md-center">
                         <Col>
                             <h3 className="pageTitle" style={{textAlign: "center"}}>
-                                <OverlayTrigger
-                                    placement={"top"}
-                                    overlay={<Tooltip id={`tooltip-${"top"}`}>Atrás</Tooltip>}>
-                                    <span className="iconAction" style={{float: "left"}}>
-                                        <IoMdArrowBack onClick={() => this.props.changeList(null)}/>
-                                    </span>
-                                </OverlayTrigger>
                                 {this.state.listRoute.getName()}
                             </h3>
                         </Col>
@@ -96,7 +89,7 @@ export class ListRoutesManagement extends Component<ListRoutesManagementProps, L
                                                     { route.getName() } 
                                                     <OverlayTrigger
                                                         placement={"top"}
-                                                        overlay={<Tooltip id={`tooltip-${"top"}`}>Eliminar</Tooltip>}>
+                                                        overlay={<Tooltip id={`tooltip-${"top"}`}>Eliminar de la lista</Tooltip>}>
                                                         <span className="iconAction deleteIcon">
                                                             <MdOutlineDelete onClick={(e) => {this.deleteRoute(route.getId())}}/>
                                                         </span>

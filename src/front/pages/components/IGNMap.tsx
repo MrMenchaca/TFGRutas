@@ -14,11 +14,14 @@ import './../../AppStyle.css';
 import "ol/ol.css";
 import { Route } from "../../../back/domain/Route";
 import { Coordinate } from "../../../back/domain/Coordinate";
+import { Button } from "react-bootstrap";
+import { AllRoutes } from "../AllRoutes";
 
 
 interface MapProps {
     center: Coordinate;
     zoom: number;
+    changeMap: any;
     routes: Route[];
     style: string;
 }
@@ -122,13 +125,21 @@ export class IGNMap extends Component<MapProps, MapState> {
             this.getRoutes().forEach((route) => {
                 this.state.map.addLayer(route);
             }, this);
+            this.state.map.on("click", () => {
+                console.log("click");
+            })
         });
+    }
+
+    public changeMap(): void{
+        this.props.changeMap(AllRoutes.GOOGLE_MAPS);
     }
 
     public render(): ReactElement {
         return (
             <Fragment>
                 <div id="ignMap" className={this.props.style}></div>
+                <Button variant="light" onClick={this.changeMap.bind(this)} className="googleMapsMapButtonLocation">GoogleMaps</Button>
             </Fragment>
         );
     }

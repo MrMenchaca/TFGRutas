@@ -1,3 +1,4 @@
+import { Numeric } from "d3";
 import { fromLonLat } from "ol/proj";
 
 export class Coordinate {
@@ -5,12 +6,16 @@ export class Coordinate {
     private lat: number;
     private lng: number;
     private alt: number;
+    private time: Date;
 
     //Constructor
-    public constructor(lat: number, lng: number, alt: number){
+    public constructor(lat: number, lng: number, 
+        alt: number = null, 
+        time: Date = null){
         this.lat = lat;
         this.lng = lng;
         this.alt = alt;
+        this.time = time;
     }
 
     //Functions
@@ -30,4 +35,5 @@ export class Coordinate {
     public getLat(): number { return this.lat; }
     public getLng(): number { return this.lng; }
     public getAlt(): number { return this.alt; }
+    public getTime(): Date { return this.time; }
 }

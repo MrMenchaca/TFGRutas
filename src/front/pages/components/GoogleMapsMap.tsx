@@ -2,10 +2,13 @@ import { Component, Fragment, ReactElement } from 'react';
 import './../../AppStyle.css';
 import { Route } from '../../../back/domain/Route';
 import { Coordinate } from '../../../back/domain/Coordinate';
+import { Button } from 'react-bootstrap';
+import { AllRoutes } from '../AllRoutes';
 
 interface MapProps {
     center: Coordinate;
     zoom: number;
+    changeMap: any;
     routes: Route[];
     style: string;
 }
@@ -34,7 +37,8 @@ export class GoogleMapsMap extends Component<MapProps, MapState>{
     private getParsedRoutes(): google.maps.Data.LineString[] {  
         const coords: google.maps.Data.LineString[] = [];
         this.props.routes.forEach(function (route: Route){
-            coords.push(new google.maps.Data.LineString(route.getGoogleMapsCoordinates()));
+            const parsedRoute = new google.maps.Data.LineString(route.getGoogleMapsCoordinates());
+            coords.push(parsedRoute);
         });  
         return coords; 
     }
@@ -77,10 +81,15 @@ export class GoogleMapsMap extends Component<MapProps, MapState>{
         });
     }
 
+    public changeMap(): void{
+        this.props.changeMap(AllRoutes.IGN);
+    }
+
     public render(): ReactElement {
         return (
             <Fragment>
                 <div id="map" className={this.props.style}></div>
+                <Button variant="light" onClick={this.changeMap.bind(this)} className="ignMapButtonLocation">IGN</Button>
             </Fragment>
         );
     }
