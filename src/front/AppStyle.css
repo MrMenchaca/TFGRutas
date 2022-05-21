@@ -99,6 +99,7 @@ a.linkCard {
 }
 
 .row.routeData .cardRouteData {
-    width: 12rem;
-    margin: 10px 0 15px 30px;
+    width: 14rem;
+    margin: 10px 0 15px 33px;
+    padding: 0px;
 }

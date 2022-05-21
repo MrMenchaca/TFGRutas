@@ -40,8 +40,8 @@ export class Database {
             coordinates: route.getCoordinates(),
             distance: route.getDistance(),
             totalTime: route.getTotalTime(),
-            ascent: route.getAscent(),
-            descent: route.getDescent(),
+            positiveSlope: route.getPositiveSlope(),
+            negativeSlope: route.getNegativeSlope(),
             averagePace: route.getAveragePace()
 
         }, function(err, record) {
@@ -335,8 +335,7 @@ export class Database {
                 $push: {
                     routes: {
                         _id: route.getId(),
-                        name: route.getName(),
-                        coordinates: route.getCoordinates()
+                        name: route.getName()
                     }
                 }
             }, {}, function(err, num) {
@@ -368,15 +367,15 @@ export class Database {
         const name = document["name"];
         const distance = document["distance"];
         const totalTime = document["totalTime"];
-        const ascent = document["ascent"];
-        const descent = document["descent"];
+        const positiveSlope = document["positiveSlope"];
+        const negativeSlope = document["negativeSlope"];
         const averagePace = document["averagePace"];
         const coordinates: Coordinate[] = [];
         document["coordinates"]?.forEach((coor: any) => {
             coordinates.push(new Coordinate(Number(coor["lat"]), Number(coor["lng"]), Number(coor["alt"]), new Date(coor["time"])));
         });
 
-        const route = new Route(name, coordinates, id, Number(distance), Number(totalTime), Number(ascent), Number(descent), Number(averagePace));
+        const route = new Route(name, coordinates, id, Number(distance), Number(totalTime), Number(positiveSlope), Number(negativeSlope), Number(averagePace));
         return route;
     }
 
@@ -398,7 +397,7 @@ export class Database {
             route["coordinates"]?.forEach((coor: any) => {
                 coordinates.push(new Coordinate(Number(coor["lat"]), Number(coor["lng"]), Number(coor["alt"]), new Date(coor["time"])));
             });
-            routes.push(new Route(route["name"], coordinates, route["_id"], Number(route["distance"]), Number(route["totalTime"]), Number(route["ascent"]), Number(route["descent"]), Number(route["averagePace"])));
+            routes.push(new Route(route["name"], coordinates, route["_id"], Number(route["distance"]), Number(route["totalTime"]), Number(route["positiveSlope"]), Number(route["negativeSlope"]), Number(route["averagePace"])));
         });
 
         const listRoute = new ListRoute(name, routes, id);

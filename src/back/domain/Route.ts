@@ -8,8 +8,8 @@ export class Route {
     private coordinates: Coordinate[];
     private distance: number; //Meters
     private totalTime: number; //Seconds
-    private ascent: number; //Meters
-    private descent: number; //Meters
+    private positiveSlope: number; //Meters
+    private negativeSlope: number; //Meters
     private averagePace: number; //Seconds
 
     //Constructor
@@ -17,8 +17,8 @@ export class Route {
          _id: string = null,
          distance: number = null,
          totalTime: number = null,
-         ascent: number = null,
-         descent: number = null,
+         positiveSlope: number = null,
+         negativeSlope: number = null,
          averagePace: number = null) {
 
         this.name = name;
@@ -26,8 +26,8 @@ export class Route {
         this._id = _id;
         if(distance !== null) this.distance = distance; else this.setDistance();
         if(totalTime !== null) this.totalTime = totalTime; else this.setTotalTime();
-        if(ascent !== null) this.ascent = ascent; else this.setAscent();
-        if(descent !== null) this.descent = descent; else this.setDescent();
+        if(positiveSlope !== null) this.positiveSlope = positiveSlope; else this.setPositiveSlope();
+        if(negativeSlope !== null) this.negativeSlope = negativeSlope; else this.setNegativeSlope();
         if(averagePace !== null) this.averagePace = averagePace; else this.setAveragePace();
     }
 
@@ -92,14 +92,14 @@ export class Route {
         return hDisplay + mDisplay + sDisplay; 
     }
 
-    public getAscentFormatted(): string {
-        let distanceString: string = this.ascent.toFixed(2) + "m";
+    public getPositiveSlopeFormatted(): string {
+        let distanceString: string = this.positiveSlope.toFixed(2) + "m";
         distanceString = distanceString.replace('.', ',');
         return distanceString;
     }
 
-    public getDescentFormatted(): string {
-        let distanceString: string = this.descent.toFixed(2) + "m";
+    public getNegativeSlopeFormatted(): string {
+        let distanceString: string = this.negativeSlope.toFixed(2) + "m";
         distanceString = distanceString.replace('.', ',');
         return distanceString;
     }
@@ -134,7 +134,6 @@ export class Route {
             
             totalSum += d;
         }
-        console.log(totalSum);
         this.distance = totalSum;
     }
 
@@ -143,22 +142,26 @@ export class Route {
         this.totalTime = diffInMs / 1000;
     }
 
-    private setAscent(): void {
-        const initialAlt: number = this.getCoordinates()[0].getAlt();
-        let higherAlt: number = initialAlt;
-        this.getCoordinates().forEach((coor) => {
-            if(coor.getAlt() > higherAlt) higherAlt = coor.getAlt();
-        });
-        this.ascent = higherAlt - initialAlt;
+    private setPositiveSlope(): void {
+        let totalSum = 0;
+        for (let i=0; i < this.getCoordinates().length - 1; i++){
+            const alt1 = this.getCoordinates()[i].getAlt();
+            const alt2 = this.getCoordinates()[i+1].getAlt();
+            if(alt2 > alt1)
+                totalSum += alt2 - alt1;
+        }
+        this.positiveSlope = totalSum;
     }
 
-    private setDescent(): void {
-        const initialAlt: number = this.getCoordinates()[0].getAlt();
-        let lowerAlt: number = initialAlt;
-        this.getCoordinates().forEach((coor) => {
-            if(coor.getAlt() < lowerAlt) lowerAlt = coor.getAlt();
-        });
-        this.descent = initialAlt - lowerAlt;
+    private setNegativeSlope(): void {
+        let totalSum = 0;
+        for (let i=0; i < this.getCoordinates().length - 1; i++){
+            const alt1 = this.getCoordinates()[i].getAlt();
+            const alt2 = this.getCoordinates()[i+1].getAlt();
+            if(alt2 < alt1)
+                totalSum += alt2 - alt1;
+        }
+        this.negativeSlope = totalSum;
     }
 
     private setAveragePace(): void {
@@ -174,7 +177,7 @@ export class Route {
     public getId(): string { return this._id }
     public getDistance(): number { return this.distance }
     public getTotalTime(): number { return this.totalTime }
-    public getAscent(): number { return this.ascent }
-    public getDescent(): number { return this.descent }
+    public getPositiveSlope(): number { return this.positiveSlope }
+    public getNegativeSlope(): number { return this.negativeSlope }
     public getAveragePace(): number { return this.averagePace }
 }

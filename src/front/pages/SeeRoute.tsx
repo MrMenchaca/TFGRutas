@@ -121,14 +121,14 @@ export class SeeRoute extends Component<SeeRouteProps, SeeRouteState>{
                             </Card>
                             <Card className="cardRouteData">
                                 <Card.Body>
-                                    <Card.Title>Ascenso</Card.Title>
-                                    <Card.Text>{this.state.routes.at(0).getAscentFormatted()}</Card.Text>
+                                    <Card.Title>Desnivel positivo acumulado</Card.Title>
+                                    <Card.Text>{this.state.routes.at(0).getPositiveSlopeFormatted()}</Card.Text>
                                 </Card.Body>
                             </Card>
                             <Card className="cardRouteData">
                                 <Card.Body>
-                                    <Card.Title>Descenso</Card.Title>
-                                    <Card.Text>{this.state.routes.at(0).getDescentFormatted()}</Card.Text>
+                                    <Card.Title>Desnivel negativo acumulado</Card.Title>
+                                    <Card.Text>{this.state.routes.at(0).getNegativeSlopeFormatted()}</Card.Text>
                                 </Card.Body>
                             </Card>
                             <Card className="cardRouteData">
