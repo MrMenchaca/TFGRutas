@@ -103,7 +103,7 @@ export class Importer extends Component<ImporterProps, ImporterState>{
                                 <section className="dropzone" style={{marginTop: "5px"}}>
                                     <div {...getRootProps()}>
                                         <input {...getInputProps()} />
-                                        <p>Arrastrar rutas</p>
+                                        <p>Arrastrar rutas con formato .gpx o .tcx</p>
                                     </div>
                                 </section>
                             )}
