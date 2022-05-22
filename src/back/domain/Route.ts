@@ -112,7 +112,7 @@ export class Route {
 
     /**
      * This function is translated from this:
-     * https://stackoverflow.com/questions/569980/how-to-calculate-distance-from-a-gpx-file#:~:text=The%20traditional%20way%20of%20calculating,is%20with%20the%20Haversine%20formula.&text=This%20returns%20the%20distance%20in,radius%20with%20it%27s%20km%20equivalent.
+     * https://stackoverflow.com/a/570048.
      */
     private setDistance(): void{
         const DtoR = 0.017453293;
