@@ -18,7 +18,4 @@ module.exports = {
   externals: {
     nedb: 'commonjs nedb',
   },
-  output: {
-    publicPath: '/',
-  },
 };
