@@ -5,7 +5,9 @@ import { AbstractParser } from './AbstractParser';
 export class GpxParser extends AbstractParser {
     public parseFile(file: any): Route{
         //Basic data
-        const name: string = file["gpx"]["trk"]["name"];
+        const date: Date = new Date(file["gpx"]["metadata"]["time"]);
+        const dateString: string = date.toLocaleDateString(); 
+        const name: string =  "[" + dateString + "] - " + file["gpx"]["trk"]["name"];
         
         //Coordinates
         const fileCoordinates: any[] = file["gpx"]["trk"]["trkseg"]["trkpt"];
