@@ -130,7 +130,6 @@
     "react-leaflet": "^3.2.2",
     "react-native-svg-charts": "^5.4.0",
     "react-pro-sidebar": "^0.7.1",
-    "react-router-dom": "^6.2.1",
-    "upath": "^2.0.1"
+    "react-router-dom": "^6.2.1"
   }
 }
