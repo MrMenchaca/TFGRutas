@@ -12,7 +12,7 @@ export class Database {
     private static db: Nedb;
 
     /**
-     * Singleton pattern. 
+     * Singleton pattern
      * 
      * @return Nedb 
      */

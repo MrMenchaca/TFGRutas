@@ -8,11 +8,13 @@ import "../AppStyle.css";
 import { AllRoutesManagement } from "./components/AllRoutesManagement";
 import { ListRoutesManagement } from "./components/ListRoutesManagement";
 import { ListManagement } from "./components/ListManagement";
+import { ImportErrorModal } from "./components/ImportErrorModal";
 
 interface ImporterProps {}
 
 interface ImporterState {
     list: any;
+    isErrorModalDisplayed: boolean
 }
 
 /**
@@ -22,7 +24,8 @@ export class Importer extends Component<ImporterProps, ImporterState>{
     public constructor(props: ImporterProps){
         super(props);
         this.state = {
-            list: <AllRoutesManagement/>
+            list: <AllRoutesManagement/>,
+            isErrorModalDisplayed: false
         }
     }
     
@@ -63,6 +66,21 @@ export class Importer extends Component<ImporterProps, ImporterState>{
                 //Refrescamos la lista
                 this.changeList(null);
             }
+            else{
+                this.showErrorModal();
+            }
+        });
+    }
+
+    public showErrorModal(): void {
+        this.setState({
+            isErrorModalDisplayed: true
+        });
+    } 
+    
+    public hideErrorModal(): void {
+        this.setState({
+            isErrorModalDisplayed: false
         });
     }
 
@@ -137,6 +155,9 @@ export class Importer extends Component<ImporterProps, ImporterState>{
                         </Col>
                     </Row>   
                 </Container>
+                <ImportErrorModal 
+                    isShow={this.state.isErrorModalDisplayed} 
+                    onHide={() => this.hideErrorModal()}/>
             </Fragment>
         );
     }
