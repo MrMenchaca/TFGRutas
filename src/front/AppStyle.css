@@ -59,6 +59,13 @@ body {
     color: rgb(93, 93, 244);
 }
 
+.iconAction:focus {
+    outline: -webkit-focus-ring-color auto 1px;
+    outline-color: -webkit-focus-ring-color;
+    outline-style: auto;
+    outline-width: 1px;
+}
+
 .showIcon {
     color: rgb(93, 93, 244);
 }

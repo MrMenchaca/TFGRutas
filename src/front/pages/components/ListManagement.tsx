@@ -79,7 +79,10 @@ export class ListManagement extends Component<ListManagementProps, ListManagemen
                             placement={"top"}
                             overlay={<Tooltip id={`tooltip-${"top"}`}>Editar</Tooltip>}>
                             <span className="iconAction">
-                                <MdEdit onClick={() => this.props.changeList(null)}/>
+                                <MdEdit 
+                                    onClick={() => this.props.changeList(null)}
+                                    tabIndex={0}
+                                    onKeyPress={(e) => {if(e.key === 'Enter') this.props.changeList(null)}}/>
                             </span>
                         </OverlayTrigger>
                     </td>
@@ -96,14 +99,20 @@ export class ListManagement extends Component<ListManagementProps, ListManagemen
                                 placement={"top"}
                                 overlay={<Tooltip id={`tooltip-${"top"}`}>Eliminar</Tooltip>}>
                                 <span className="iconAction deleteIcon">
-                                    <MdOutlineDelete onClick={(e) => {this.showDeleteModal(listRoute.getId())}}/>
+                                    <MdOutlineDelete 
+                                        onClick={(e) => {this.showDeleteModal(listRoute.getId())}}
+                                        tabIndex={0}
+                                        onKeyPress={(e) => {if(e.key === 'Enter') this.showDeleteModal(listRoute.getId())}}/>
                                 </span>
                             </OverlayTrigger>
                             <OverlayTrigger
                                 placement={"top"}
                                 overlay={<Tooltip id={`tooltip-${"top"}`}>Editar</Tooltip>}>
                                 <span className="iconAction">
-                                    <MdEdit onClick={() => this.props.changeList(listRoute.getId())}/>
+                                    <MdEdit 
+                                        onClick={() => this.props.changeList(listRoute.getId())}
+                                        tabIndex={0}
+                                        onKeyPress={(e) => {if(e.key === 'Enter') this.props.changeList(listRoute.getId())}}/>
                                 </span>
                             </OverlayTrigger>
                         </td>
@@ -129,7 +138,10 @@ export class ListManagement extends Component<ListManagementProps, ListManagemen
                                 placement={"top"}
                                 overlay={<Tooltip id={`tooltip-${"top"}`}>Crear lista</Tooltip>}>
                                 <span className="iconAction">
-                                    <MdPlaylistAdd onClick={this.showAddModal.bind(this)}/>
+                                    <MdPlaylistAdd 
+                                        onClick={this.showAddModal.bind(this)}
+                                        tabIndex={0}
+                                        onKeyPress={(e) => {if(e.key === 'Enter') this.showAddModal()}}/>
                                 </span>
                             </OverlayTrigger>
                         </h3> 

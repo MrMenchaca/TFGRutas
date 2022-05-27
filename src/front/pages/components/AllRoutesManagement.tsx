@@ -97,7 +97,10 @@ export class AllRoutesManagement extends Component<AllRoutesManagementProps, All
                                                         placement={"top"}
                                                         overlay={<Tooltip id={`tooltip-${"top"}`}>Eliminar</Tooltip>}>
                                                         <span className="iconAction deleteIcon">
-                                                            <MdOutlineDelete onClick={(e) => {this.showDeleteModal(route.getId())}}/>
+                                                            <MdOutlineDelete 
+                                                                onClick={(e) => {this.showDeleteModal(route.getId())}}
+                                                                tabIndex={0}
+                                                                onKeyPress={(e) => {if(e.key === 'Enter') this.showDeleteModal(route.getId())}}/>
                                                         </span>
                                                     </OverlayTrigger>
                                                     <OverlayTrigger
@@ -113,7 +116,10 @@ export class AllRoutesManagement extends Component<AllRoutesManagementProps, All
                                                         placement={"top"}
                                                         overlay={<Tooltip id={`tooltip-${"top"}`}>Añadir a lista</Tooltip>}>
                                                         <span className="iconAction">
-                                                            <MdOutlineLibraryAdd onClick={(e) => {this.showAddModal(route.getId())}}/>
+                                                            <MdOutlineLibraryAdd 
+                                                                onClick={(e) => {this.showAddModal(route.getId())}}
+                                                                tabIndex={0}
+                                                                onKeyPress={(e) => {if(e.key === 'Enter') this.showAddModal(route.getId())}}/>
                                                         </span>
                                                     </OverlayTrigger>
                                                 </td>

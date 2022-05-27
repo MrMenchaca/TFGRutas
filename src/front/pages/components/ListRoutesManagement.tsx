@@ -1,5 +1,5 @@
 import { Component, Fragment, ReactElement } from "react";
-import { Col, OverlayTrigger, Row, Table, Tooltip } from "react-bootstrap";
+import { Button, Col, OverlayTrigger, Row, Table, Tooltip } from "react-bootstrap";
 import { Database } from "../../../back/database/Database";
 import { Route } from "../../../back/domain/Route";
 import { MdOutlineDelete, MdOutlineLibraryAdd } from 'react-icons/md';
@@ -91,7 +91,10 @@ export class ListRoutesManagement extends Component<ListRoutesManagementProps, L
                                                         placement={"top"}
                                                         overlay={<Tooltip id={`tooltip-${"top"}`}>Eliminar de la lista</Tooltip>}>
                                                         <span className="iconAction deleteIcon">
-                                                            <MdOutlineDelete onClick={(e) => {this.deleteRoute(route.getId())}}/>
+                                                            <MdOutlineDelete
+                                                                onClick={(e) => {this.deleteRoute(route.getId())}} 
+                                                                tabIndex={0}
+                                                                onKeyPress={(e) => {if(e.key === 'Enter') this.deleteRoute(route.getId())}}/>
                                                         </span>
                                                     </OverlayTrigger>
                                                     <OverlayTrigger
