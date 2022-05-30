@@ -21,6 +21,8 @@ interface ImporterState {
  * Importer page
  */
 export class Importer extends Component<ImporterProps, ImporterState>{ 
+    private idList: string;
+
     public constructor(props: ImporterProps){
         super(props);
         this.state = {
@@ -85,7 +87,8 @@ export class Importer extends Component<ImporterProps, ImporterState>{
     }
 
     public changeList(idList: string): void{
-        if (idList == null)
+        this.idList = idList;
+        if (this.idList == null)
             this.setState({
                 list: null
             },() => {
@@ -99,7 +102,7 @@ export class Importer extends Component<ImporterProps, ImporterState>{
             },() => {
                 this.setState({
                     list: <ListRoutesManagement 
-                        idList={idList}
+                        idList={this.idList}
                         changeList={this.changeList.bind(this)}/>
                 }); 
             });
@@ -148,7 +151,9 @@ export class Importer extends Component<ImporterProps, ImporterState>{
                     </Row> 
                     <Row className="justify-content-md-center">
                         <Col>
-                            <ListManagement changeList={this.changeList.bind(this)}/>
+                            <ListManagement 
+                                changeList={this.changeList.bind(this)} 
+                                idActiveList={this.idList}/>
                         </Col>
                         <Col xs={9}>
                             {this.state.list}

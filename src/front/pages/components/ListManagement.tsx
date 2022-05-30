@@ -9,6 +9,7 @@ import { DeleteListRouteModal } from "./DeleteListRouteModal";
 
 interface ListManagementProps {
     changeList: any;
+    idActiveList: string;
 }
 
 interface ListManagementState {
@@ -40,6 +41,12 @@ export class ListManagement extends Component<ListManagementProps, ListManagemen
                 listRouteslist: data
             })
         );
+    }
+
+    public deleteListRefresh(): void {
+        this.refreshListRouteList();
+        if(this.props.idActiveList === this.state.idListRouteToDelete)
+            this.props.changeList(null);
     }
 
     public showAddModal(): void {
@@ -164,7 +171,7 @@ export class ListManagement extends Component<ListManagementProps, ListManagemen
                         idRouteToDelete={this.state.idListRouteToDelete}
                         isShow={this.state.isDeleteModalDisplayed}
                         onHide={() => this.hideDeleteModal()}
-                        refreshFather={() => this.refreshListRouteList()}/>
+                        refreshFather={() => this.deleteListRefresh()}/>
             </Fragment>
         );
     }
