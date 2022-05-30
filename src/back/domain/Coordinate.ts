@@ -1,4 +1,3 @@
-import { Numeric } from "d3";
 import { fromLonLat } from "ol/proj";
 
 export class Coordinate {
