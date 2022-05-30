@@ -12,7 +12,7 @@ if (require('electron-squirrel-startup')) { // eslint-disable-line global-requir
 const createWindow = (): void => {
     // Create the browser window.
     const mainWindow = new BrowserWindow({
-        title: "TFGRutas",
+        title: "Toure",
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false
