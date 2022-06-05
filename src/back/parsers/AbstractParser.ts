@@ -39,5 +39,5 @@ export abstract class AbstractParser implements IParser{
      * @param file Route file
      * @return Route
      */
-    abstract parseFile(file: any): Route;
+    protected abstract parseFile(file: any): Route;
 }

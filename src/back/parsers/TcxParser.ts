@@ -3,7 +3,7 @@ import { Route } from '../domain/Route';
 import { AbstractParser } from './AbstractParser';
 
 export class TcxParser extends AbstractParser {
-    public parseFile(file: any): Route {
+    protected parseFile(file: any): Route {
         const fileCoordinates: any[] = file["TrainingCenterDatabase"]["Courses"]["Course"]["Track"]["Trackpoint"];
         
         //Basic data

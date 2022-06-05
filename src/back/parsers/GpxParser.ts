@@ -3,7 +3,7 @@ import { Route } from '../domain/Route';
 import { AbstractParser } from './AbstractParser';
 
 export class GpxParser extends AbstractParser {
-    public parseFile(file: any): Route{
+    protected parseFile(file: any): Route{
         //Basic data
         const date: Date = new Date(file["gpx"]["metadata"]["time"]);
         const dateString: string = date.toLocaleDateString(); 
