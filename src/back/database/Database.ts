@@ -49,7 +49,7 @@ export class Database {
                 console.error(err);
                 return false;
             }
-            console.log(record);
+            //console.log(record);
             return true;
         });
 
@@ -74,7 +74,7 @@ export class Database {
                 console.error(err);
                 return false;
             }
-            console.log(record);
+            //console.log(record);
             return true;
         });
 

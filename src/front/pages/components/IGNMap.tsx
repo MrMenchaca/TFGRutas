@@ -125,9 +125,6 @@ export class IGNMap extends Component<MapProps, MapState> {
             this.getRoutes().forEach((route) => {
                 this.state.map.addLayer(route);
             }, this);
-            this.state.map.on("click", () => {
-                console.log("click");
-            })
         });
     }
 

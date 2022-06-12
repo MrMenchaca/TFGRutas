@@ -15,7 +15,7 @@ export class GpxParser extends AbstractParser {
         fileCoordinates.forEach(function(coor: any){
             customCoordinates.push(new Coordinate(Number(coor["@_lat"]), Number(coor["@_lon"]), coor["ele"], new Date(coor["time"])));
         });
-        console.log(customCoordinates);
+        //console.log(customCoordinates);
         return new Route(name, customCoordinates);
     }
 }

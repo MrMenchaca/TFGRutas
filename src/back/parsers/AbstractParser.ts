@@ -7,7 +7,7 @@ export abstract class AbstractParser implements IParser{
     
     public fromFileToDomain(filePath: string): Route{
         const file = this.readFile(filePath);
-        console.log(file);
+        //console.log(file);
 
         return this.parseFile(file);
     }
@@ -28,7 +28,7 @@ export abstract class AbstractParser implements IParser{
             return parser.parse(file);
         }
         catch(err){
-            console.log(err);
+            //console.log(err);
             return null;
         }
     }

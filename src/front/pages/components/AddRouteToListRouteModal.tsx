@@ -46,7 +46,6 @@ export class AddRouteToListRouteModal extends Component<AddRouteToListRouteModal
     }
 
     public enableButton(isEnabled: boolean){
-        console.log(this.state.listRoutesToAdd)
         if(isEnabled)
             this.setState({
                 isButtonDisabled: false
